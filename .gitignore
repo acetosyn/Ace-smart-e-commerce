@@ -2,7 +2,6 @@
 __pycache__/
 *.py[cod]
 *.pyo
-
 # Environment and settings
 .env
 *.env
