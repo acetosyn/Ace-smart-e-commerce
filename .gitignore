@@ -1,0 +1,56 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment and settings
+.env
+*.env
+.env.*
+
+# VSCode and IDE configs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Flask specific
+instance/
+*.db
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Logs
+*.log
+
+# Coverage and testing
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+
+# Static asset cache (optional)
+static/uploads/
+static/cache/
+
+# Node/npm-related (if you use frontend packages)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Deployment files (optional)
+*.bak
+*.zip
+*.tar
+*.tar.gz
+
+# Output files or built assets
+*.out
+*.exe

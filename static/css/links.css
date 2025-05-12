@@ -1,0 +1,22 @@
+.hover-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.hover-list li {
+    display: block;
+    padding: 8px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.hover-list li a {
+    text-decoration: none;
+    color: black;
+    pointer-events: auto; /* Ensure links remain clickable */
+}
+
+.hover-list li:hover a {
+    color: #1E90FF; /* Bright blue on hover */
+}

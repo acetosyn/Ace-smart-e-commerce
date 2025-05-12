@@ -1,0 +1,286 @@
+/* Chat & Voice Icon Container */
+.chat-voice-container {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    display: flex;
+    gap: 20px; /* Further increased spacing between mic & chat */
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Chat Icon */
+.chat-icon {
+    background: #ff6600;
+    color: white;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s;
+}
+
+.chat-icon:hover {
+    background: #e65c00;
+}
+
+/* Voice Chat Icon (Lottie Mic) */
+.voice-chat-icon {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    background-color: #ff6600; /* Changed from transparent to orange */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 60px;
+    right: 100px; /* Moves mic further left */
+    border-radius: 50%; /* Makes it round like the chat icon */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adds shadow for a polished look */
+}
+
+/* Ensure Lottie animation fits properly */
+.voice-chat-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: invert(1); /* This makes black Lottie icons appear white */
+}
+
+/* Voice Chat Icon Hover Effect */
+.voice-chat-icon:hover {
+    background: #e65c00; /* Darker orange on hover */
+}
+
+/* Voice Chat Container (Hidden Initially) */
+.voice-chat-container {
+    position: fixed;
+    bottom: 80px;
+    right: 120px; /* Default position, now further left */
+    width: 400px;
+    height: 550px;
+    display: none;
+    z-index: 1000;
+    transform: scale(0.8);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, right 0.3s ease-out;
+}
+
+/* Open animation (Shift left when opened) */
+.voice-chat-container.active {
+    transform: scale(1);
+    opacity: 1;
+    display: block;
+    right: 200px; /* Moves left when active */
+}
+
+/* Voice Chat Card */
+.voice-chat-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background-color: #3b3d52;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Voice Chat Header */
+.voice-chat-header {
+    background-color: #ff6600;
+    color: white;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Close Button */
+.close-voice-chat {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close-voice-chat:hover {
+    color: #ff3300;
+}
+
+/* Voice Chat Display */
+.voice-chat-display {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #2a2b3e;
+}
+
+/* Voice Input Section */
+.voice-input-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+/* Lottie Mic Button Inside Voice Chat */
+.mic-button {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure Lottie Mic Button Inside Chat Fits Properly */
+.mic-button svg {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+/* Language Selection Dropdown */
+.language-select {
+    background: #ff6600; /* Match header color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 5px 10px;
+    cursor: pointer;
+    outline: none;
+    appearance: none; /* Removes default browser styles */
+    transition: background 0.3s, color 0.3s;
+}
+
+/* When dropdown is hovered */
+.language-select:hover {
+    background: #e65c00;
+}
+
+/* Dropdown Arrow Styling */
+.language-select::after {
+    content: "▼";
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+
+/* Make dropdown text bold */
+.language-select option {
+    font-weight: bold;
+    color: black; /* Ensure text is readable */
+}
+
+/* Add spacing between the dropdown and the close button */
+.voice-chat-header select {
+    margin-right: auto;
+    margin-left: 10px;
+}
+
+
+
+.speaking-bubble {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e0e0e0;
+    padding: 10px 15px;
+    border-radius: 20px;
+    position: relative;
+    width: 50px;
+}
+
+.speaking-bubble .dot {
+    width: 8px;
+    height: 8px;
+    margin: 0 3px;
+    background: gray;
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+}
+
+.speaking-bubble .dot:nth-child(1) { animation-delay: 0s; }
+.speaking-bubble .dot:nth-child(2) { animation-delay: 0.2s; }
+.speaking-bubble .dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+    0% { opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
+
+
+
+/* Positioning header elements */
+.voice-chat-header {
+    background-color: #ff6600; /* Orange */
+    color: white;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* Language Dropdown */
+.language-select {
+    background: white; /* Change to white for visibility */
+    color: #ff6600;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 5px 10px;
+    cursor: pointer;
+    outline: none;
+    margin-left: auto; /* Push to the right */
+}
+
+/* Clear Chat Button */
+.clear-chat-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: white;
+    position: absolute;
+    right: 40px; /* Adjust spacing */
+    top: 50%;
+    transform: translateY(-50%);
+    transition: color 0.3s ease;
+}
+
+.clear-chat-btn:hover {
+    color: #ffcc00; /* Yellow highlight on hover */
+}
+
+/* Close Button */
+.close-voice-chat {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: absolute;
+    right: 10px; /* Place at the top-right */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.close-voice-chat:hover {
+    color: #ff3300;
+}

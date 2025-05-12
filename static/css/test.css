@@ -1,0 +1,13 @@
+/* Ensure the sidebar scrolls with the page */
+.sidebar-wrapper {
+    position: absolute; /* Allows natural scrolling */
+    height: auto; /* Adjust dynamically */
+    min-height: 100vh; /* Ensures it extends beyond the footer */
+}
+
+/* Allow sidebar to expand and scroll */
+.sidebar {
+    height: auto; /* Allows dynamic growth */
+    min-height: 100vh; /* Extends to full height and beyond */
+    overflow-y: auto; /* Enables scrolling */
+}

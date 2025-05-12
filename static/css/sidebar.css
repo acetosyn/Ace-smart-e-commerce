@@ -1,0 +1,113 @@
+/* Sidebar Wrapper */
+.sidebar-wrapper {
+    position: absolute;
+    left: 0;
+    top: 180px; /* Adjust to align under second header */
+    height: auto;
+    z-index: 1000;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 150px; /* Default width */
+    background-color: #04175d;
+    color: white;
+    padding: 20px;
+    min-height: 100vh;
+    height: auto; /* Allow sidebar to scroll */
+    overflow-y: auto; /* Enables scrolling */
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
+    position: absolute; 
+    top: 180px; /* Adjust to align under the second header */
+    left: 0;
+}
+
+/* Adjust page content when sidebar expands/collapses */
+.main-content {
+    margin-left: 150px; /* Push content to the right when sidebar is expanded */
+    transition: margin-left 0.3s ease-in-out;
+}
+
+
+/* Collapsed Sidebar */
+.sidebar.collapsed {
+    width: 0; /* Completely hide sidebar */
+    padding: 0;
+    overflow: hidden;
+}
+
+.sidebar.collapsed + .main-content {
+    margin-left: 0; /* Pull content back when sidebar collapses */
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Align toggle button beside Categories */
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+/* Sidebar Toggle Button */
+.sidebar-toggle {
+    position: absolute; /* Keep it fixed when scrolling */
+    top: 168px; /* Moves it UP */
+    left: 190px; /* Moves it further RIGHT */
+    background: #ff6600;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    z-index: 1100; /* Ensures it stays above other elements */
+}
+
+
+/* Move Toggle Button When Collapsed */
+.sidebar.collapsed + .sidebar-toggle {
+    left: 10px; /* Bring it closer */
+}
+
+/* Sidebar Menu */
+.menu {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Sidebar Category */
+.menu .category {
+    font-weight: bold;
+    padding: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Sidebar Hover Effect */
+.menu .category:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ff6600;
+}
+
+/* Submenu */
+.menu .sub-menu {
+    list-style-type: none;
+    padding-left: 15px;
+    display: none;
+}
+
+/* Submenu Items */
+.menu .sub-menu li {
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Default

@@ -1,0 +1,55 @@
+/* ✅ Arrange One Product on the Right and Stack Others */
+.product-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between left and right sections */
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* ✅ Left Section (Stacked Products) */
+.product-stack {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 20px; /* Space between stacked items */
+    width: 60%; /* Take up 60% of the space */
+}
+
+/* ✅ Right Section (Single Product) */
+.product-right {
+    width: 35%; /* Takes up 35% of space */
+    align-self: center; /* Centers it vertically */
+}
+
+/* ✅ Ensure Product Cards Don't Stretch */
+.product-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    padding: 15px;
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+}
+
+/* ✅ Image Styling */
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* ✅ Responsive Design - Stack All on Small Screens */
+@media (max-width: 768px) {
+    .product-grid {
+        flex-direction: column; /* Stack everything */
+    }
+    .product-stack, .product-right {
+        width: 100%; /* Full width */
+    }
+}

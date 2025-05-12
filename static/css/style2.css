@@ -1,0 +1,259 @@
+
+
+/* Second Header: Promo Section */
+.promo_header {
+    text-align: center;
+    padding: 80px 20px;
+    background: url('../images/promo-bg.jpg') no-repeat center center/cover;
+    color: white;
+    position: relative;
+    border-top: 3px solid #ff6600;
+}
+
+/* Promo Section Overlay */
+.promo_header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Promo Section Content */
+.promo_header h1 {
+    font-size: 40px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+}
+
+.promo_header p {
+    font-size: 20px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+/* Promo Call-to-Action Button */
+.promo_cta {
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.promo_cta a {
+    display: inline-block;
+    background-color: #ff6600;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: background 0.3s ease-in-out;
+}
+
+.promo_cta a:hover {
+    background-color: #d35400;
+}
+
+/* Shopping Start Section */
+.shopping_start {
+    text-align: center;
+    padding: 60px 0;
+    background: #f8f9fa;
+}
+
+.banner_title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.buynow_bt a {
+    display: inline-block;
+    background-color: #f26522;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.buynow_bt a:hover {
+    background-color: #d35400;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 200px;
+    background-color: #04175d;
+    color: white;
+    padding: 20px;
+    position: absolute;
+    top: 120px;
+    left: 0;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Sidebar Hover Effect */
+.menu .category:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ff6600;
+}
+
+.menu .sub-menu li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ff6600;
+}
+
+/* Search Section */
+.search_section {
+    text-align: center;
+    padding: 60px 0;
+    background: url('../images/search-bg.jpg') no-repeat center center/cover;
+    color: white;
+}
+
+/* Ensure search input and button are aligned properly */
+.search_area .input-group {
+    display: flex;
+    align-items: center; /* Aligns input and button on the same line */
+    width: 60%;
+    margin: 0 auto;
+}
+
+/* Adjust Input Field */
+.search_area input {
+    background: rgba(255, 255, 255, 0.9);
+    color: black;
+    font-size: 18px;
+    flex: 1; /* Allows input to take remaining space */
+    padding: 10px;
+    border-radius: 5px 0 0 5px; /* Rounds only left corners */
+}
+
+/* Search Button */
+.search_area .input-group-append {
+    display: flex;
+    align-items: center;
+}
+
+.search_area button {
+    background-color: #f26522;
+    border-color: #f26522;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 0 5px 5px 0; /* Rounds only right corners */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Ensure the search icon is properly displayed */
+.search_area button i {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+
+/* Shopping Start Section */
+.shopping_start {
+    display: flex;
+    justify-content: center; /* Centers it horizontally */
+    align-items: center; /* Centers it vertically */
+    text-align: center;
+    min-height: 50vh; /* Adjusts height to position it properly */
+}
+
+Ensure container is centered
+.shopping_start .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Shopping Start Text */
+.banner_title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #343a40;
+    margin-bottom: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Center Buy Now Button */
+.buynow_bt {
+    margin-top: 20px;
+}
+
+/* Style Buy Now Button */
+.buynow_bt a {
+    display: inline-block;
+    background-color: #f26522;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.buynow_bt a:hover {
+    background-color: #d35400;
+}
+
+
+
+/* Category Dropdown Styling */
+#categorySelect.form-select {
+    background: rgba(255, 255, 255, 0.9);
+    color: black;
+    font-size: 16px;
+    padding: 15px;
+    border: none;
+    border-radius: 5px 0 0 5px; /* Match left side rounding */
+    height: 100%;
+    width: 220px; /* Increased from 'auto' to a fixed wider value */
+    max-width: none; /* Remove the limit if needed */
+    flex-shrink: 0;
+    margin-right: 5px; /* Optional spacing from the next element */
+}
+
+
+/* Adjust the middle input to remove left border radius */
+.search_area input.form-control {
+    border-radius: 0; /* Remove side rounding when next to dropdown/button */
+}
+
+/* Search button keeps its right-side rounding */
+.search_area button.search-btn {
+    border-radius: 0 5px 5px 0;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+    .search_area .input-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #categorySelect.form-select,
+    .search_area input.form-control,
+    .search_area button.search-btn {
+        width: 100%;
+        border-radius: 5px;
+    }
+}
