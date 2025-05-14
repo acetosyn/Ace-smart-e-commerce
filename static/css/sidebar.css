@@ -2,26 +2,27 @@
 .sidebar-wrapper {
     position: absolute;
     left: 0;
-    top: 180px; /* Adjust to align under second header */
+    top: 50; /* Changed from 180px */
     height: auto;
     z-index: 1000;
 }
 
 /* Sidebar */
 .sidebar {
-    width: 150px; /* Default width */
+    width: 150px;
     background-color: #04175d;
     color: white;
     padding: 20px;
     min-height: 100vh;
-    height: auto; /* Allow sidebar to scroll */
-    overflow-y: auto; /* Enables scrolling */
+    height: auto;
+    overflow-y: auto;
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
     transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
-    position: absolute; 
-    top: 180px; /* Adjust to align under the second header */
+    position: absolute;
+    top: 50; /* Changed from 180px */
     left: 0;
 }
+
 
 /* Adjust page content when sidebar expands/collapses */
 .main-content {
@@ -55,8 +56,8 @@
 /* Sidebar Toggle Button */
 .sidebar-toggle {
     position: absolute; /* Keep it fixed when scrolling */
-    top: 168px; /* Moves it UP */
-    left: 190px; /* Moves it further RIGHT */
+    top: 110px; /* Moves it UP */
+    left: 0px; /* Moves it further RIGHT */
     background: #ff6600;
     color: white;
     border: none;

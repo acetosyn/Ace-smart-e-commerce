@@ -21,17 +21,18 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/shopping.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/links.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/categories.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/typewriter.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/typewriter.css') }}"> -->
     
 </head>
 
 <body>
 
-<!-- First Header: Contact Info, Free Shipping, & User Actions -->
+<!-- Unified Header: Contact Info, Logo, and Navigation -->
 <header class="top_header">
     <div class="container">
+
+        <!-- Top Content: Contact Info, Free Shipping, Logout -->
         <div class="header-top-content">
-            <!-- Right: Track Order, Register & Login -->
             <div class="header-right">
                 <span><i class="fa fa-phone"></i> (+234) 123 456 7890</span>
                 <span><i class="fa fa-envelope"></i> info@acemax.com</span>
@@ -45,45 +46,29 @@
                         <path style="fill:#abd8c7" d="M45.991 30.74H17.903c-.774 0-1.397.623-1.397 1.393v14.528h30.883V32.133a1.395 1.395 0 0 0-1.398-1.393z"/>
                     </svg>
                 </span>
-                
             </div>
-        </div>
-        
-        <!-- Logo Section -->
-        <div class="logo_section">
-            <a href="{{ url_for('home') }}">
-                <img src="{{ url_for('static', filename='images/test.png') }}" alt="ACE Logo">
-            </a>
-            <div class="logo-text">Smart e-Commerce System</div>
         </div>
 
-        <div class="search_bar">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for products...">
-                <div class="input-group-append">
-                    <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522;">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
+        <!-- Logo and Navigation Together -->
+        <div class="logo_nav_section">
+            <div class="logo_section">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='images/test.png') }}" alt="ACE Logo">
+                </a>
             </div>
+            <nav class="main_nav">
+                <div class="nav_links">
+                    <ul>
+                        <li><a href="#" class="home">Home</a></li>
+                        <li><a href="#" class="pro_version">Upgrade</a></li>
+                    </ul>
+                </div>
+            </nav>
         </div>
+
     </div>
 </header>
 
-<!-- Second Header: Navigation -->
-<nav class="main_nav">
-    <div class="container">
-        <div class="nav_links">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Blog Post</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#" class="pro_version">Buy Pro Version</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
 
 <!-- Second Header: Promotional Section -->
 <section class="promo_header">
@@ -154,12 +139,10 @@
   
       <!-- Product Results Will Appear Here -->
       <div id="searchResults" class="hidden mt-4"></div>
+      
     </div>
   </section>
   
-
-
-
 
 <!-- Shopping Start Section -->
 <section class="shopping_start">

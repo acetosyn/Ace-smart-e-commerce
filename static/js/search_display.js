@@ -112,10 +112,14 @@ function performSearch() {
     return;
   }
 
+  // Reset UI state
+  suggestionBox.innerHTML = "";
+  searchInput.blur();
   rememberSuggestedProduct(query);
   searchResults.classList.remove("hidden");
   searchResults.innerHTML = loaderHTML;
 
+  // Lottie loader
   lottie.loadAnimation({
     container: document.getElementById("lottieLoader"),
     renderer: "svg",
@@ -124,6 +128,7 @@ function performSearch() {
     path: "/static/data/animation.json"
   });
 
+  // Search API call
   fetch("/search-products", {
     method: "POST",
     headers: {
@@ -145,7 +150,7 @@ function performSearch() {
         return;
       }
 
-      // Remove duplicates based on name + price + image URL
+      // Remove duplicates
       const seen = new Set();
       const uniqueProducts = allProducts.filter(p => {
         const key = `${p.name}|${p.price}|${p.image}`;
@@ -154,6 +159,7 @@ function performSearch() {
         return true;
       });
 
+      // Generate product cards
       const cards = uniqueProducts.map(p => `
         <div class="col-md-6 col-lg-4 mb-4">
           <div class="card h-100">
@@ -162,7 +168,10 @@ function performSearch() {
               <h5 class="card-title">${p.name}</h5>
               <p class="card-text">Price: ${p.price}</p>
               ${p.rating !== undefined ? `<p class="card-text">Rating: ${p.rating} ⭐</p>` : ""}
-              <a href="${p.url}" class="btn btn-primary" target="_blank">Buy Now</a>
+              <div class="d-flex justify-content-between align-items-center gap-2 mt-3">
+                <a href="${p.url}" class="btn btn-primary" target="_blank">Buy Now</a>
+                <button class="btn btn-danger btn-sm clear-btn" onclick="clearSearch()">Clear</button>
+              </div>
             </div>
           </div>
         </div>
@@ -178,4 +187,13 @@ function performSearch() {
       console.error("Fetch error:", err);
       searchResults.innerHTML = "<div class='error'>Error fetching products.</div>";
     });
+}
+
+function clearSearch() {
+  document.getElementById("search-bar").value = "";
+  document.getElementById("categorySelect").value = "ratings";
+  document.getElementById("searchResults").innerHTML = "";
+  document.getElementById("searchResults").classList.add("hidden");
+  document.getElementById("clearWrapper").classList.add("hidden");
+  sessionStorage.removeItem("lastSuggestedProduct");
 }

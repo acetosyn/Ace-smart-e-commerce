@@ -2,26 +2,26 @@
 .product-grid {
     display: flex;
     justify-content: center;
-    gap: 20px; /* Space between left and right sections */
+    gap: 20px;
     max-width: 1200px;
     margin: auto;
 }
 
-/* ✅ Left Section (Stacked Products) */
+/* ✅ Left Section */
 .product-stack {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    gap: 20px; /* Space between stacked items */
-    width: 60%; /* Take up 60% of the space */
+    flex-direction: column;
+    gap: 20px;
+    width: 60%;
 }
 
-/* ✅ Right Section (Single Product) */
+/* ✅ Right Section */
 .product-right {
-    width: 35%; /* Takes up 35% of space */
-    align-self: center; /* Centers it vertically */
+    width: 35%;
+    align-self: center;
 }
 
-/* ✅ Ensure Product Cards Don't Stretch */
+/* ✅ Product Cards */
 .product-card {
     background: white;
     border-radius: 8px;
@@ -36,20 +36,21 @@
     transform: scale(1.05);
 }
 
-/* ✅ Image Styling */
+/* ✅ Image Style (optional height shrink) */
 .product-card img {
     width: 100%;
-    height: 200px;
+    height: 40px; /* Slightly reduced */
     object-fit: cover;
     border-radius: 8px;
 }
 
-/* ✅ Responsive Design - Stack All on Small Screens */
+/* ✅ Responsive */
 @media (max-width: 768px) {
     .product-grid {
-        flex-direction: column; /* Stack everything */
+        flex-direction: column;
     }
-    .product-stack, .product-right {
-        width: 100%; /* Full width */
+    .product-stack,
+    .product-right {
+        width: 100%;
     }
 }

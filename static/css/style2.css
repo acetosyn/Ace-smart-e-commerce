@@ -1,78 +1,17 @@
-
-
-/* Second Header: Promo Section */
-.promo_header {
-    text-align: center;
-    padding: 80px 20px;
-    background: url('../images/promo-bg.jpg') no-repeat center center/cover;
-    color: white;
-    position: relative;
-    border-top: 3px solid #ff6600;
-}
-
-/* Promo Section Overlay */
-.promo_header::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-}
-
-/* Promo Section Content */
-.promo_header h1 {
-    font-size: 40px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    z-index: 1;
-}
-
-.promo_header p {
-    font-size: 20px;
-    font-weight: 500;
-    position: relative;
-    z-index: 1;
-}
-
-/* Promo Call-to-Action Button */
-.promo_cta {
-    margin-top: 20px;
-    position: relative;
-    z-index: 1;
-}
-
-.promo_cta a {
-    display: inline-block;
-    background-color: #ff6600;
-    color: white;
-    padding: 12px 25px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 18px;
-    transition: background 0.3s ease-in-out;
-}
-
-.promo_cta a:hover {
-    background-color: #d35400;
-}
-
+/* ============================= */
 /* Shopping Start Section */
+/* ============================= */
 .shopping_start {
     text-align: center;
-    padding: 60px 0;
+    padding: 120px 0 60px; /* Push downward */
     background: #f8f9fa;
 }
 
 .banner_title {
-    font-size: 36px;
+    font-size: 28px;
     font-weight: bold;
     color: #343a40;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -80,18 +19,21 @@
     display: inline-block;
     background-color: #f26522;
     color: white;
-    padding: 12px 25px;
+    padding: 10px 22px;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .buynow_bt a:hover {
     background-color: #d35400;
 }
 
+
+/* ============================= */
 /* Sidebar */
+/* ============================= */
 .sidebar {
     width: 200px;
     background-color: #04175d;
@@ -107,135 +49,160 @@
 }
 
 /* Sidebar Hover Effect */
-.menu .category:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ff6600;
-}
-
+.menu .category:hover,
 .menu .sub-menu li:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: #ff6600;
 }
 
-/* Search Section */
+
+/* ============================= */
+/* Larger, Unified Search Section with search_cart.jpg */
+/* ============================= */
 .search_section {
     text-align: center;
-    padding: 60px 0;
-    background: url('../images/search-bg.jpg') no-repeat center center/cover;
+    padding: 180px 20px;
+    background: url('../images/search_cart2.jpg') no-repeat center center/cover;
     color: white;
 }
 
-/* Ensure search input and button are aligned properly */
+/* Search Area Wrapper */
 .search_area .input-group {
-    display: flex;
-    align-items: center; /* Aligns input and button on the same line */
-    width: 60%;
-    margin: 0 auto;
-}
-
-/* Adjust Input Field */
-.search_area input {
-    background: rgba(255, 255, 255, 0.9);
-    color: black;
-    font-size: 18px;
-    flex: 1; /* Allows input to take remaining space */
-    padding: 10px;
-    border-radius: 5px 0 0 5px; /* Rounds only left corners */
-}
-
-/* Search Button */
-.search_area .input-group-append {
-    display: flex;
-    align-items: center;
-}
-
-.search_area button {
-    background-color: #f26522;
-    border-color: #f26522;
-    color: white;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 0 5px 5px 0; /* Rounds only right corners */
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    width: 95%;
+    max-width: 1100px;
+    margin: 0 auto;
+    flex-wrap: nowrap;
 }
 
-/* Ensure the search icon is properly displayed */
-.search_area button i {
-    margin-right: 5px;
-    font-size: 16px;
+/* Category Dropdown (left) */
+.search_area .form-select {
+    font-size: 22px;
+    padding: 24px 20px;
+    border: none;
+    background: white;
+    color: black;
+    border-radius: 10px 0 0 10px;
+    min-width: 230px;
+    height: 70px;
+    box-sizing: border-box;
 }
 
-
-/* Shopping Start Section */
-.shopping_start {
-    display: flex;
-    justify-content: center; /* Centers it horizontally */
-    align-items: center; /* Centers it vertically */
-    text-align: center;
-    min-height: 50vh; /* Adjusts height to position it properly */
+/* Search Input (middle) */
+.search_area input {
+    font-size: 24px;
+    padding: 24px 30px;
+    border: none;
+    outline: none;
+    flex: 1;
+    background: white;
+    color: black;
+    height: 70px;
+    box-sizing: border-box;
 }
 
-Ensure container is centered
-.shopping_start .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Shopping Start Text */
-.banner_title {
-    font-size: 36px;
+/* Search Button (right) */
+.search_area button {
+    font-size: 22px;
     font-weight: bold;
-    color: #343a40;
-    margin-bottom: 20px;
-    font-family: 'Poppins', sans-serif;
-}
-
-/* Center Buy Now Button */
-.buynow_bt {
-    margin-top: 20px;
-}
-
-/* Style Buy Now Button */
-.buynow_bt a {
-    display: inline-block;
     background-color: #f26522;
     color: white;
-    padding: 12px 25px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 18px;
+    padding: 0 40px;
+    height: 70px;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.buynow_bt a:hover {
+.search_area button:hover {
     background-color: #d35400;
 }
 
+.search_area button i {
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+/* Autocomplete Suggestions */
+.autocomplete-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+    z-index: 999;
+    font-size: 18px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
 
+/* ============================= */
+/* Mobile Responsive Adjustments */
+/* ============================= */
+@media (max-width: 768px) {
+    .search_area .input-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search_area .form-select,
+    .search_area input,
+    .search_area button {
+        width: 100%;
+        border-radius: 10px !important;
+        font-size: 20px;
+        height: 60px;
+    }
+
+    .search_area button {
+        padding: 0 20px;
+    }
+
+    .banner_title {
+        font-size: 22px;
+    }
+
+    .buynow_bt a {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+
+    .shopping_start {
+        padding: 80px 20px 40px;
+    }
+}
+
+
+/* ============================= */
 /* Category Dropdown Styling */
+/* ============================= */
 #categorySelect.form-select {
     background: rgba(255, 255, 255, 0.9);
     color: black;
     font-size: 16px;
     padding: 15px;
     border: none;
-    border-radius: 5px 0 0 5px; /* Match left side rounding */
+    border-radius: 5px 0 0 5px;
     height: 100%;
-    width: 220px; /* Increased from 'auto' to a fixed wider value */
-    max-width: none; /* Remove the limit if needed */
+    width: 220px;
+    max-width: none;
     flex-shrink: 0;
-    margin-right: 5px; /* Optional spacing from the next element */
+    margin-right: 5px;
 }
-
 
 /* Adjust the middle input to remove left border radius */
 .search_area input.form-control {
-    border-radius: 0; /* Remove side rounding when next to dropdown/button */
+    border-radius: 0;
 }
 
 /* Search button keeps its right-side rounding */
@@ -243,13 +210,8 @@ Ensure container is centered
     border-radius: 0 5px 5px 0;
 }
 
-/* Responsive for smaller screens */
+/* Mobile override for dropdown/input/button */
 @media (max-width: 768px) {
-    .search_area .input-group {
-        flex-direction: column;
-        gap: 10px;
-    }
-
     #categorySelect.form-select,
     .search_area input.form-control,
     .search_area button.search-btn {

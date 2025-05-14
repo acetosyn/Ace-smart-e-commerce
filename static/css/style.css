@@ -43,17 +43,6 @@ footer {
     display: block;
 }
 
-/* Logo Text */
-.logo-text {
-    font-size: 26px; /* Slightly bigger for visibility */
-    font-weight: bold;
-    color: #fdfcff; /* Stylish white */
-    text-transform: uppercase;
-    margin-left: 15px; /* Space between logo and text */
-    margin-top: 30px; /* Moves text down */
-    white-space: nowrap; /* Prevents text from breaking into two lines */
-}
-
 
 /* Main Navigation */
 .main_nav {
@@ -145,59 +134,7 @@ footer {
     font-size: 16px;
 }
 
-/* Search Bar in Header */
-.search_bar {
-    position: absolute;
-    left: 580px; /* Moves it farther from the menu title */
-    top: 78px; /* Moves it down slightly */
-    transform: translateY(0); /* Ensures proper placement */
-}
 
-/* Adjust Input Field */
-.search_bar .input-group {
-    width: 370px; /* Keeps it long */
-    height: 23px; /* Increased height for better visibility */
-    display: flex;
-    align-items: center; /* Ensures icon is beside input */
-}
-
-/* Adjust Input Field */
-.search_bar input {
-    width: 100%;
-    height: 100%;
-    font-size: 16px; /* Increases text size */
-    padding: 10px;
-    border-radius: 5px 0 0 5px; /* Rounds left corners */
-    border: 1px solid #ccc;
-}
-
-/* Search Button */
-.search_bar .input-group-append {
-    height: 100%;
-}
-
-.search_bar button {
-    background-color: #f26522;
-    border-color: #f26522;
-    color: white;
-    font-weight: bold;
-    padding: 19px 20px;
-    height: 100%;
-    border-radius: 0 5px 5px 0; /* Rounds right corners */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-/* Ensure the search icon is properly aligned */
-.search_bar button i {
-    font-size: 22px;
-    margin: 0;
-}
-.search_bar .input-group-append {
-    margin-top: -15px; /* Adjust this value to move it up */
-}
 
 /* Style for the logout button */
 .logout-btn {
