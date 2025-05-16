@@ -208,13 +208,14 @@ def search_products():
 
         # ✅ Add message if products are found
         if results:
-            message = "Here are the top products from Jumia displayed on your screen."
+            site_names = ", ".join(r["site"].capitalize() for r in results)
+            message = f"Here are the top products from {site_names} displayed on your screen."
             if bot_type == "voice":
                 response["message"] = {
                     "text": message,
                     "speak": True
                 }
-            else:  # chatbot
+            else:
                 response["message"] = {
                     "text": message,
                     "speak": False

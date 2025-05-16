@@ -1,8 +1,11 @@
+# llm_engine.py
+
 import re
 import os
 from dotenv import load_dotenv
 from textblob import TextBlob
 from groq import Groq
+from trigger import detect_fetch_trigger, generate_fetch_response
 
 # Load API Key
 load_dotenv()
@@ -12,16 +15,18 @@ client = Groq(api_key=groq_api_key)
 # System Prompt
 SYSTEM_PROMPT = (
     "You are AceBot, an intelligent e-commerce assistant. Your job is to assist users in finding products, "
-    "comparing prices, and providing the best deals available online. You should be friendly, smart, and responsive.\n\n"
+    "comparing prices, and providing the best deals available online from multiple e-commerce websites. "
+    "You should be friendly, smart, and responsive.\n\n"
     "✅ Rules:\n"
     "- Greet the user only on the first response.\n"
     "- Don’t repeat greetings like 'Hi' or 'Hello'.\n"
-    "- If user asks 'what are you' or 'who are you', say: 'I’m AceBot, your e-commerce assistant! 😊'\n"
+    "- If the user asks 'what are you' or 'who are you', say: 'I’m AceBot, your e-commerce assistant! 😊'\n"
     "- If the user says 'I want to buy a [product]', ask for their preferred brand.\n"
-    "- If they say 'I want to buy a phone', ask: 'Which brand? Samsung, iPhone, Tecno, or another brand?'\n"
-    "- If a brand is mentioned, proceed to ask where they’d like to buy it: Jumia, Amazon, or compare all.\n"
-    "- If the user says 'fetch it for me from Jumia' or 'yes, Jumia', populate the search bar with the product and trigger the search automatically."
+    "- If the product is a phone, ask: 'Which brand? Samsung, iPhone, Tecno, or another brand?'\n"
+    "- If a brand is mentioned, ask where they’d like to buy it: Jumia, Amazon, Konga, Slot, Kara, AjeboMarket, or Jiji — or if they want to compare across all.\n"
+    "- If the user says something like 'fetch it for me from [site]' (e.g., Jumia, Amazon, Konga, etc.), populate the search bar with the product and trigger the fetch for that specific site."
 )
+
 
 user_history = []
 user_context = {"product": None, "brand": None}
@@ -54,18 +59,6 @@ def extract_product(user_input):
 def extract_brand(user_input):
     brands = ["samsung", "iphone", "tecno", "infinix", "xiaomi", "lg", "sony", "hp", "dell", "apple", "nokia"]
     return next((b.capitalize() for b in brands if b in user_input.lower()), None)
-
-def should_trigger_jumia_fetch(user_input):
-    phrases = [
-        "get it from jumia",
-        "fetch it from jumia",
-        "search for it from jumia",
-        "yes, jumia",
-        "yes jumia",
-        "yes"
-    ]
-    user_input_lower = user_input.lower()
-    return any(phrase in user_input_lower for phrase in phrases)
 
 # Main LLM Handler
 def query_llama3(user_input):
@@ -106,24 +99,19 @@ def query_llama3(user_input):
     if brand:
         user_context["brand"] = brand
 
-    # Jumia fetch trigger
-    if should_trigger_jumia_fetch(user_input):
+    # Universal fetch trigger
+    triggered_site = detect_fetch_trigger(user_input)
+    if triggered_site:
         product_name = user_context.get("product", "").strip()
-
-        if not product_name or product_name.lower() in ["it", "it from jumia", "from jumia"]:
-            # Try previous meaningful product mention
+        if not product_name or product_name.lower() in ["it", f"it from {triggered_site}", f"from {triggered_site}"]:
             for past_input in reversed(user_history[:-1]):
                 product_name = extract_product(past_input)
                 if product_name and product_name.lower() not in ["it", "this", "that"]:
                     break
-
         if product_name:
-            product_name = product_name.title()
-            human_line = f"Fetching {product_name} from Jumia...\n"
-            trigger_line = f"__FETCH_FROM_JUMIA__{product_name}"
-            return human_line + trigger_line
+            return generate_fetch_response(triggered_site, product_name)
         else:
-            return "I need to know what product you're referring to before fetching from Jumia 😊."
+            return f"I need to know what product you're referring to before fetching from {triggered_site.capitalize()} 😊."
 
     # Context-aware prompt
     product_context = f"{user_context['brand'] or ''} {user_context['product'] or ''}".strip()
