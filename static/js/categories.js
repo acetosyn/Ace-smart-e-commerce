@@ -41,3 +41,25 @@ const categories = {
     }
   });
   
+
+
+function handleCategoryChange() {
+  const category = document.getElementById("categorySelect").value;
+  const siteDropdown = document.getElementById("specificSitesDropdown");
+
+  if (category === "specific-sites") {
+    siteDropdown.classList.remove("hidden");
+    siteDropdown.focus(); // Optional: automatically focus dropdown
+  } else {
+    siteDropdown.classList.add("hidden");
+  }
+}
+
+// Optional: hide dropdown after user selects from it
+document.getElementById("specificSitesDropdown").addEventListener("change", () => {
+  const category = document.getElementById("categorySelect").value;
+  if (category === "specific-sites") {
+    // Auto-hide after selection
+    document.getElementById("specificSitesDropdown").classList.add("hidden");
+  }
+});

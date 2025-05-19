@@ -186,7 +186,8 @@
 /* ============================= */
 /* Category Dropdown Styling */
 /* ============================= */
-#categorySelect.form-select {
+#categorySelect.form-select,
+#specificSitesDropdown.form-select {
     background: rgba(255, 255, 255, 0.9);
     color: black;
     font-size: 16px;
@@ -199,6 +200,7 @@
     flex-shrink: 0;
     margin-right: 5px;
 }
+
 
 /* Adjust the middle input to remove left border radius */
 .search_area input.form-control {
@@ -218,4 +220,24 @@
         width: 100%;
         border-radius: 5px;
     }
+}
+
+
+/* Utility: hide element */
+.hidden {
+  display: none !important;
+}
+
+/* Style for the multi-select dropdown */
+#specificSitesDropdown {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: black;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 100%;
+  margin-top: 10px;
+  max-width: 800px;
 }

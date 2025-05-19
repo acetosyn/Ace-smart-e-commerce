@@ -53,3 +53,4 @@ yarn.lock
 # Output files or built assets
 *.out
 *.exe
+.docx

@@ -113,36 +113,48 @@
 </aside>
 
 <section class="search_section">
-    <div class="container">
-      <div class="search_area">
-        <!-- Wrap input group with relative positioning for autocomplete -->
-        <div class="input-group" style="position: relative; max-width: 800px; margin: auto;">
-          
-          <!-- Category Dropdown -->
-          <select id="categorySelect" class="form-select" style="max-width: 200px;">
-            <option value="ratings">⭐ Sites with Ratings</option>
-            <option value="non-ratings">🛍️ Other Sites</option>
-          </select>
-  
-          <!-- Search Input -->
-          <input type="text" id="search-bar" class="form-control" placeholder="Search for products...">
-  
-          <!-- Search Button -->
-          <button class="btn btn-secondary search-btn" type="button" onclick="performSearch()">
-            <i class="fa fa-search"></i> Search
-          </button>
-  
-          <!-- Autocomplete Suggestions -->
-          <div id="suggestions" class="autocomplete-box"></div>
-        </div>
+  <div class="container">
+    <div class="search_area">
+      <div class="input-group" style="position: relative; max-width: 800px; margin: auto; flex-wrap: wrap;">
+
+        <!-- Category Dropdown -->
+        <select id="categorySelect" class="form-select" onchange="handleCategoryChange()">
+          <option value="ratings">⭐ Sites with Ratings</option>
+          <option value="non-ratings">🛍️ Other Sites</option>
+          <option value="specific-sites">🔍 Choose Specific Sites</option>
+        </select>
+
+        <!-- Search Input -->
+        <input type="text" id="search-bar" class="form-control" placeholder="Search for products...">
+
+        <!-- Search Button -->
+        <button class="btn btn-secondary search-btn" type="button" onclick="performSearch()">
+          <i class="fa fa-search"></i> Search
+        </button>
+
+        <!-- Autocomplete Suggestions -->
+        <div id="suggestions" class="autocomplete-box"></div>
+
+        <!-- Specific Sites Dropdown (appears conditionally) -->
+        <select id="specificSitesDropdown" class="form-select hidden" style="margin-top: 15px; width: 100%;">
+          <option value="amazon">Amazon</option>
+          <option value="jumia">Jumia</option>
+          <option value="konga">Konga</option>
+          <option value="jiji">Jiji</option>
+          <option value="kara">Kara</option>
+          <option value="slot">Slot</option>
+          <option value="ajebomarket">Ajebomarket</option>
+          <option value="topsuccess">Topsuccess</option>
+        </select>
+
       </div>
-  
-      <!-- Product Results Will Appear Here -->
-      <div id="searchResults" class="hidden mt-4"></div>
-      
     </div>
-  </section>
-  
+
+    <!-- Product Results Will Appear Here -->
+    <div id="searchResults" class="hidden mt-4"></div>
+  </div>
+</section>
+
 
 <!-- Shopping Start Section -->
 <section class="shopping_start">

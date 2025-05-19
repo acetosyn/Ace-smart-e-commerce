@@ -1,6 +1,5 @@
 let categorySuggestions = {};
 let currentFocus = -1;
-let selectedSpecificSite = null;  // NEW
 
 // Load autocomplete category data
 fetch('/static/data/categories.json')
@@ -109,23 +108,6 @@ function performSearch() {
     return;
   }
 
-  // Detect if it's a specific site
-  let specificSite = null;
-  if (category === "specific-sites") {
-    specificSite = selectedSpecificSite;
-
-    // ✅ Check if user failed to pick a specific site
-    if (!specificSite) {
-      searchResults.innerHTML = `<div class="error">❌ Please select a site to search from.</div>`;
-      return;
-    }
-  } else if (
-    category !== "ratings" &&
-    category !== "non-ratings"
-  ) {
-    specificSite = category;
-  }
-
   suggestionBox.innerHTML = "";
   searchInput.blur();
   rememberSuggestedProduct(query);
@@ -145,7 +127,7 @@ function performSearch() {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ query, category, selected_site: specificSite })
+    body: JSON.stringify({ query, category })
   })
     .then(response => response.json())
     .then(data => {
@@ -199,7 +181,6 @@ function performSearch() {
     });
 }
 
-
 function clearSearch() {
   document.getElementById("search-bar").value = "";
   document.getElementById("categorySelect").value = "ratings";
@@ -207,27 +188,4 @@ function clearSearch() {
   document.getElementById("searchResults").classList.add("hidden");
   document.getElementById("clearWrapper").classList.add("hidden");
   sessionStorage.removeItem("lastSuggestedProduct");
-}
-
-// Handle category change (to show/hide site dropdown)
-function handleCategoryChange() {
-  const category = document.getElementById("categorySelect").value;
-  const siteDropdown = document.getElementById("specificSitesDropdown");
-
-  if (category === "specific-sites") {
-    siteDropdown.classList.remove("hidden");
-    siteDropdown.focus();
-  } else {
-    siteDropdown.classList.add("hidden");
-  }
-}
-
-// Handle site selection → remember selected site
-document.getElementById("specificSitesDropdown").addEventListener("change", function () {
-  selectedSpecificSite = this.value;
-});
-
-// Utility: capitalize site name
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
 }

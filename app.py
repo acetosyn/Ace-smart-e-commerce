@@ -19,6 +19,7 @@ import re
 from dotenv import load_dotenv
 from flask_cors import CORS
 from scrap_local import scrape_products_by_category
+from scrap_global import try_single_site_scrape
 
 
 
@@ -192,40 +193,42 @@ def search_products():
     data = request.json
     query = data.get("query", "").strip().lower()
     category = data.get("category", "ratings")
-    bot_type = data.get("bot_type", "chat")  # Accepts 'chat' or 'voice'
+    selected_site = data.get("selected_site", "")  # ✅ Get selected site if applicable
+    bot_type = data.get("bot_type", "chat")
 
     if not query:
         return jsonify({"error": "Missing product query"}), 400
 
     try:
-        results, _ = scrape_products_by_category(query, category)
-        if not results:
-            # Try fallback: other category
-            fallback_category = "non-ratings" if category == "ratings" else "ratings"
-            results, _ = scrape_products_by_category(query, fallback_category)
+        if category == "specific-sites":
+            if not selected_site:
+                return jsonify({"error": "No specific site selected"}), 400
+
+            results = try_single_site_scrape(query, selected_site)
+        else:
+            results, _ = scrape_products_by_category(query, category)
+
+        # ✅ Inject site source into each product
+        for site_result in results:
+            site_name = site_result["site"]
+            for product in site_result["data"]:
+                product["source"] = site_name
 
         response = {"products": results or []}
 
-        # ✅ Add message if products are found
         if results:
             site_names = ", ".join(r["site"].capitalize() for r in results)
-            message = f"Here are the top products from {site_names} displayed on your screen."
-            if bot_type == "voice":
-                response["message"] = {
-                    "text": message,
-                    "speak": True
-                }
-            else:
-                response["message"] = {
-                    "text": message,
-                    "speak": False
-                }
+            response["message"] = {
+                "text": f"Here are the top products from {site_names} displayed on your screen.",
+                "speak": bot_type == "voice"
+            }
 
         return jsonify(response), 200
 
     except Exception as e:
         print("Scraping error:", e)
         return jsonify({"error": str(e)}), 500
+
 
 
 
