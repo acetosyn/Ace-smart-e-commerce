@@ -1,5 +1,7 @@
 # scrap_global.py
-
+import requests
+import os
+from product_extraction import extract_and_store_products
 from scrap_local import (
     RATING_SITES,
     NON_RATING_SITES,
@@ -34,21 +36,46 @@ def try_single_site_scrape(product_query, site):
         return []
 
     print(f"\n[INFO] 🔍 Scraping from the selected site: {site}")
+
+    # ✅ Amazon uses ASIN-based structured endpoint
+    if site == "amazon":
+        print("[🔁 AMAZON] Using structured ASIN-based logic.")
+        products = extract_amazon_data(None, product_query)
+        result_data = [{
+            "site": "amazon",
+            "data": products
+        }] if products else []
+        extract_and_store_products(result_data)
+        return result_data
+
+    # ✅ For other sites
     search_url = ALL_SITES[site] + product_query.replace(" ", "+")
     print(f"[DEBUG] 🌐 Search URL: {search_url}")
 
-    payload = {
-        'api_key': SCRAPER_API_KEY,
-        'url': search_url,
-        'render': 'true',
-        'autoparse': 'false',
-        'country_code': 'ng',
-        'device_type': 'desktop'
-    }
+    if site == "jumia":
+        payload = {
+            "api_key": os.getenv("scraping_bee_api"),
+            "url": search_url,
+            "render_js": "true"
+        }
+        proxy_url = "https://app.scrapingbee.com/api/v1"
+    else:
+        payload = {
+            'api_key': SCRAPER_API_KEY,
+            'url': search_url,
+            'render': 'true',
+            'autoparse': 'false',
+            'country_code': 'ng',
+            'device_type': 'desktop'
+        }
+        proxy_url = "https://api.scraperapi.com/"
 
-    response = fetch_with_retry(payload)
-    if not response:
-        print(f"[ERROR] ❌ No response received from {site}")
+    response = requests.get(proxy_url, params=payload, headers={"User-Agent": "Mozilla/5.0"})
+    print(f"[DEBUG] Attempt → Status: {response.status_code}")
+    print(f"[DEBUG] Final URL: {response.url}")
+
+    if response.status_code != 200:
+        print(f"[ERROR] ❌ Non-200 response from {site}. Content:\n{response.text[:400]}")
         return []
 
     html = response.text
@@ -61,7 +88,11 @@ def try_single_site_scrape(product_query, site):
     else:
         print(f"[INFO] ✅ Found {len(products)} products on {site}")
 
-    return [{
+    result_data = [{
         "site": site,
-        "data": products[:4]  # Optional: limit for consistency
+        "data": products[:4]
     }] if products else []
+
+    extract_and_store_products(result_data)
+    return result_data
+

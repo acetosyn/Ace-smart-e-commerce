@@ -7,9 +7,11 @@ import random
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import traceback
+from product_extraction import extract_and_store_products
 
 load_dotenv()
 SCRAPER_API_KEY = os.getenv("scraper_api")
+SCRAPINGBEE_API_KEY = os.getenv("scraping_bee_api")
 
 memory_cache = {}
 
@@ -61,10 +63,12 @@ PRODUCT_KEYWORDS = {
 def generate_cache_key(query):
     return hashlib.md5(query.encode()).hexdigest()
 
-def fetch_with_retry(payload, retries=3, delay=5):
+def fetch_with_retry(payload, use_scrapingbee=False, retries=3, delay=5):
+    base_url = "https://app.scrapingbee.com/api/v1" if use_scrapingbee else "https://api.scraperapi.com/"
+
     for attempt in range(retries):
         try:
-            response = requests.get("https://api.scraperapi.com/", params=payload, headers={"User-Agent": "Mozilla/5.0"})
+            response = requests.get(base_url, params=payload, headers={"User-Agent": "Mozilla/5.0"})
             print(f"[DEBUG] Attempt {attempt + 1} → Status: {response.status_code}")
             print(f"[DEBUG] Final URL: {response.url}")
 
@@ -81,24 +85,31 @@ def fetch_with_retry(payload, retries=3, delay=5):
     return None
 
 
-# def match_query_exactly(name, query):
-#     query_keywords = query.lower().split()
-#     product_name = name.lower()
-#     return all(word in product_name for word in query_keywords)
-
 def fuzzy_match(query, name):
     return all(word in name.lower() for word in query.lower().split())
 
 
+#Function to give a definate product return and filter out unecessary product not searched
+UNWANTED_KEYWORDS = {"case", "cover", "protector", "screen", "glass"}
+
+def is_relevant_product(query, name):
+    if not fuzzy_match(query, name):
+        return False
+    name_lower = name.lower()
+    return not any(bad in name_lower for bad in UNWANTED_KEYWORDS)
+
+
 #---------------------------------------------EXTRACTION----------------------------------------------------------------------------
 #JUMIA EXTRACT
-from bs4 import BeautifulSoup
 
 # JUMIA
 def extract_jumia_data(html, product_query):
     soup = BeautifulSoup(html, "html.parser")
     product_cards = soup.select("article.prd")[:30]
     products = []
+
+    # Keywords to exclude accessories, cases, chargers, etc.
+    exclusion_keywords = ["case", "cover", "screen", "protector", "charger", "cable", "adapter", "glass", "earpiece", "battery", "strap"]
 
     for card in product_cards:
         try:
@@ -120,6 +131,10 @@ def extract_jumia_data(html, product_query):
                 width_percent = float(style.split("width:")[1].replace("%", "").strip())
                 star_value = round((width_percent / 100) * 5, 1)
 
+            # Filter: skip accessories or unrelated items
+            if name and any(ex_kw.lower() in name.lower() for ex_kw in exclusion_keywords):
+                continue
+
             if name and price and link and image and fuzzy_match(product_query, name):
                 products.append({
                     "name": name,
@@ -128,14 +143,17 @@ def extract_jumia_data(html, product_query):
                     "url": link,
                     "image": image
                 })
+
         except Exception:
             continue
 
+    # Sort best rated first
     five_star = [p for p in products if p["rating"] == 5.0]
     four_star = [p for p in products if 4.0 <= p["rating"] < 5.0]
     sorted_results = five_star + sorted(four_star, key=lambda x: x["rating"], reverse=True)
 
     return sorted_results[:4] if sorted_results else []
+
 
 # KONGA
 def extract_konga_data(html, product_query):
@@ -332,58 +350,63 @@ def extract_jiji_data(html, product_query):
     return products[:4] if products else []
 
 
+
 def extract_amazon_data(html, product_query):
-    soup = BeautifulSoup(html, "html.parser")
-    # print (f"\n\n Full HTML sample the Soup returned is : \n{soup.prettify()}")
-    product_cards = soup.select("div.s-result-item[data-component-type='s-search-result']")[:30]
+    print(f"[🔍 AMAZON] Structured search for: {product_query}")
+
+    # Step 1: Keyword Search to get ASINs
+    search_endpoint = "https://api.scraperapi.com/structured/amazon/search"
+    search_params = {
+        "api_key": SCRAPER_API_KEY,
+        "query": product_query
+    }
+
+    search_res = requests.get(search_endpoint, params=search_params)
+    if search_res.status_code != 200:
+        print("[❌ AMAZON] Search failed")
+        return []
+
+    search_data = search_res.json()
+    asins = [item["asin"] for item in search_data.get("results", []) if "asin" in item][:4]
+    print(f"[✅ AMAZON] Found ASINs: {asins}")
+
+    # Step 2: Fetch product data for each ASIN
+    product_endpoint = "https://api.scraperapi.com/structured/amazon/product"
     products = []
 
-    for card in product_cards:
+    for asin in asins:
         try:
-            # Product name: fallbacks included
-            name_elem = card.select_one("span.a-text-normal")
-            name = name_elem.text.strip() if name_elem else None
+            res = requests.get(product_endpoint, params={"api_key": SCRAPER_API_KEY, "asin": asin})
+            if res.status_code != 200:
+                continue
 
-            # Price
-            price_elem = card.select_one("span.a-price > span.a-offscreen")
-            price = price_elem.text.strip() if price_elem else None
+            data = res.json()
 
-            # Image
-            image_elem = card.select_one("img.s-image")
-            image = image_elem["src"] if image_elem and image_elem.get("src") else None
+            name = data.get("name")
+            price = data.get("pricing") or data.get("list_price", "Not listed")
+            rating = float(data.get("average_rating", 0.0))
+            url = f"https://www.amazon.com/dp/{asin}"
+            image = data.get("images", [None])[0]
 
-            # Link fallback
-            link_elem = card.select_one("a.a-link-normal.s-no-outline") or card.select_one("a.a-link-normal")
-            link = "https://www.amazon.com" + link_elem["href"] if link_elem else None
-
-            # Rating
-            rating_elem = card.select_one("span.a-icon-alt")
-            rating_text = rating_elem.text.strip() if rating_elem else ""
-            rating = 0.0
-            if "out of" in rating_text:
-                try:
-                    rating = float(rating_text.split(" out of")[0])
-                except ValueError:
-                    rating = 0.0
-
-            if name and price and link and image and fuzzy_match(product_query, name):
+            if name and image:
                 products.append({
                     "name": name,
                     "price": price,
                     "rating": rating,
-                    "url": link,
+                    "url": url,
                     "image": image
                 })
 
-        except Exception:
+        except Exception as e:
+            print(f"[⚠️ AMAZON] Failed to process ASIN {asin}: {e}")
             continue
 
-    # Sort 5-star first, then 4-star
+    # Sort like Jumia
     five_star = [p for p in products if p["rating"] == 5.0]
     four_star = [p for p in products if 4.0 <= p["rating"] < 5.0]
     sorted_results = five_star + sorted(four_star, key=lambda x: x["rating"], reverse=True)
 
-    return sorted_results[:4] if sorted_results else []
+    return sorted_results[:4]
 
 
 
@@ -428,18 +451,31 @@ def scrape_products_by_category(product_query, category="ratings"):
                 print(f"[INFO] Scraping from: {site}")
                 print(f"[DEBUG] Search URL: {search_url}")
 
-                payload = {
-                    'api_key': SCRAPER_API_KEY,
-                    'url': search_url,
-                    'render': 'true',
-                    'autoparse': 'false',
-                    'country_code': 'ng',
-                    'device_type': 'desktop'
-                }
+                # 🔁 Choose ScrapingBee for Jumia, ScraperAPI otherwise
+                if site == "jumia":
+                    payload = {
+                        'api_key': os.getenv("scraping_bee_api"),
+                        'url': search_url,
+                        'render_js': "true"
+                    }
+                    proxy_url = "https://app.scrapingbee.com/api/v1"
+                else:
+                    payload = {
+                        'api_key': SCRAPER_API_KEY,
+                        'url': search_url,
+                        'render': 'true',
+                        'autoparse': 'false',
+                        'country_code': 'ng',
+                        'device_type': 'desktop'
+                    }
+                    proxy_url = "https://api.scraperapi.com/"
 
-                response = fetch_with_retry(payload)
-                if not response:
-                    print(f"[ERROR] No response received from {site}")
+                response = requests.get(proxy_url, params=payload, headers={"User-Agent": "Mozilla/5.0"})
+                print(f"[DEBUG] Attempt → Status: {response.status_code}")
+                print(f"[DEBUG] Final URL: {response.url}")
+
+                if response.status_code != 200:
+                    print(f"[ERROR] Non-200 response from {site}. Content:\n{response.text[:400]}")
                     continue
 
                 html = response.text
@@ -486,4 +522,5 @@ def scrape_products_by_category(product_query, category="ratings"):
         results = try_scraping_sites(RATING_SITES, rating_sites)
 
     memory_cache[cache_key] = (results, False)
+    extract_and_store_products(results)
     return results, False

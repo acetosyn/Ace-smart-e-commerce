@@ -1,17 +1,14 @@
-/* Hide results initially */
+/* === General Layout === */
 #searchResults.hidden {
   display: none;
 }
 
-/* Results container (now transparent, no white block) */
 #searchResults {
   padding: 30px 20px;
-  background: transparent; /* Remove white background */
-  border-radius: 0;
+  background: transparent;
   margin-top: 0;
 }
 
-/* Flex grid */
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -19,12 +16,11 @@
   justify-content: center;
 }
 
-/* Product card */
+/* === Product Card === */
 .card {
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -38,7 +34,6 @@
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
-/* Product image */
 .card img {
   width: 100%;
   height: 220px;
@@ -46,7 +41,6 @@
   border-bottom: 1px solid #eee;
 }
 
-/* Card body */
 .card-body {
   padding: 16px;
   display: flex;
@@ -55,7 +49,6 @@
   flex: 1;
 }
 
-/* Product title */
 .card-title {
   font-size: 17px;
   font-weight: 600;
@@ -64,29 +57,32 @@
   min-height: 48px;
 }
 
-/* Price and rating */
 .card-text {
   font-size: 14px;
   color: #333;
   margin-bottom: 8px;
 }
 
-/* Button */
-.card .btn-primary {
-  background-color: #ff6600;
+/* === Buttons === */
+.card .btn-primary,
+.clear-btn {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 14px;
   border: none;
   color: white;
-  font-weight: 600;
-  padding: 8px 16px;
-  margin-top: auto;
+  border-radius: 5px;
+  cursor: pointer;
   transition: background-color 0.3s ease;
+  background-color: #ff6600;
 }
 
-.card .btn-primary:hover {
-  background-color: #e65c00;
+.card .btn-primary:hover,
+.clear-btn:hover {
+  filter: brightness(90%);
 }
 
-/* Loader */
+/* === Loader & Feedback === */
 .loading-spinner {
   font-size: 18px;
   color: #ff6600;
@@ -101,15 +97,6 @@
   100% { opacity: 0.5; }
 }
 
-/* Error message */
-.error {
-  color: red;
-  font-size: 16px;
-  text-align: center;
-  padding: 20px;
-}
-
-/* Lottie loader */
 .lottie-loader {
   width: 100px;
   height: 100px;
@@ -123,62 +110,39 @@
   margin-top: 10px;
 }
 
-
-
-
-.clear-btn {
-  font-size: 14px;
-  font-weight: 600;
-  padding: 8px 14px;
-  border: none;
-  background-color:#ff6600;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer; /* 👈 THIS LINE makes it clickable */
-  transition: background-color 0.3s ease;
+.error {
+  color: red;
+  font-size: 16px;
+  text-align: center;
+  padding: 20px;
 }
 
+/* === Site-Specific Branding === */
+.card.jumia     { border-color: #f68b1e; }
+.card.amazon    { border-color: #146eb4; }
+.card.konga     { border-color: #8131ae; }
+.card.jiji      { border-color: #00b207; }
+.card.slot      { border-color: #002147; }
+.card.kara      { border-color: #d0021b; }
+.card.ajebomarket { border-color: #00796b; }
+.card.topsuccess  { border-color: #e65100; }
 
-.clear-btn:hover {
-  background-color: #c82333;
-}
+.card.jumia     .btn-primary, .card.jumia     .clear-btn { background-color: #f68b1e; }
+.card.amazon    .btn-primary, .card.amazon    .clear-btn { background-color: #146eb4; }
+.card.konga     .btn-primary, .card.konga     .clear-btn { background-color: #8131ae; }
+.card.jiji      .btn-primary, .card.jiji      .clear-btn { background-color: #00b207; }
+.card.slot      .btn-primary, .card.slot      .clear-btn { background-color: #002147; }
+.card.kara      .btn-primary, .card.kara      .clear-btn { background-color: #d0021b; }
+.card.ajebomarket .btn-primary, .card.ajebomarket .clear-btn { background-color: #00796b; }
+.card.topsuccess  .btn-primary, .card.topsuccess  .clear-btn { background-color: #e65100; }
 
-/* Responsive adjustment */
+/* === Mobile Friendly Adjustments === */
 @media (max-width: 768px) {
-  .clear-btn {
-    width: 100%;
-    font-size: 15px;
-  }
-}
-
-
-
-
-
-/* Responsive */
-@media (max-width: 768px) {
-  .card {
-    max-width: 100%;
-  }
-
-  .card-body {
-    padding: 14px;
-  }
-
-  .card-title {
-    font-size: 15px;
-  }
-
-  .card-text {
-    font-size: 13px;
-  }
-
-  .card .btn-primary {
-    font-size: 14px;
-    padding: 7px 12px;
-  }
-
-  .row {
-    gap: 15px;
-  }
+  .card         { max-width: 100%; }
+  .card-body    { padding: 14px; }
+  .card-title   { font-size: 15px; }
+  .card-text    { font-size: 13px; }
+  .btn-primary,
+  .clear-btn    { font-size: 14px; padding: 7px 12px; width: 100%; }
+  .row          { gap: 15px; }
 }

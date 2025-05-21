@@ -20,6 +20,7 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 from scrap_local import scrape_products_by_category
 from scrap_global import try_single_site_scrape
+from product_extraction import extract_and_store_products
 
 
 
@@ -193,8 +194,9 @@ def search_products():
     data = request.json
     query = data.get("query", "").strip().lower()
     category = data.get("category", "ratings")
-    selected_site = data.get("selected_site", "")  # ✅ Get selected site if applicable
+    selected_site = data.get("specificSite", "")
     bot_type = data.get("bot_type", "chat")
+    print(f"[ROUTE] 🔔 Incoming search request: {data}")
 
     if not query:
         return jsonify({"error": "Missing product query"}), 400
@@ -203,7 +205,6 @@ def search_products():
         if category == "specific-sites":
             if not selected_site:
                 return jsonify({"error": "No specific site selected"}), 400
-
             results = try_single_site_scrape(query, selected_site)
         else:
             results, _ = scrape_products_by_category(query, category)
@@ -213,6 +214,9 @@ def search_products():
             site_name = site_result["site"]
             for product in site_result["data"]:
                 product["source"] = site_name
+
+        # ✅ Extract product names into categories.json
+        extract_and_store_products(results)
 
         response = {"products": results or []}
 
@@ -228,8 +232,6 @@ def search_products():
     except Exception as e:
         print("Scraping error:", e)
         return jsonify({"error": str(e)}), 500
-
-
 
 
 if __name__ == '__main__':

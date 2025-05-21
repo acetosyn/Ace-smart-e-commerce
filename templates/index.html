@@ -137,15 +137,17 @@
 
         <!-- Specific Sites Dropdown (appears conditionally) -->
         <select id="specificSitesDropdown" class="form-select hidden" style="margin-top: 15px; width: 100%;">
-          <option value="amazon">Amazon</option>
-          <option value="jumia">Jumia</option>
-          <option value="konga">Konga</option>
-          <option value="jiji">Jiji</option>
-          <option value="kara">Kara</option>
-          <option value="slot">Slot</option>
-          <option value="ajebomarket">Ajebomarket</option>
-          <option value="topsuccess">Topsuccess</option>
+        <option value="">-- Select a site --</option> <!-- ADD THIS -->
+        <option value="amazon">Amazon</option>
+        <option value="jumia">Jumia</option>
+        <option value="konga">Konga</option>
+        <option value="jiji">Jiji</option>
+        <option value="kara">Kara</option>
+        <option value="slot">Slot</option>
+        <option value="ajebomarket">Ajebomarket</option>
+        <option value="topsuccess">Topsuccess</option>
         </select>
+
 
       </div>
     </div>
@@ -354,7 +356,6 @@
 <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> -->
 <script src="{{ url_for('static', filename='js/search_display.js') }}"></script>
 <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
-<script src="{{ url_for('static', filename='js/search_display.js') }}"></script>
 <script src="{{ url_for('static', filename='js/search_fetch.js') }}"></script>
 <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
 <script src="{{ url_for('static', filename='js/voicebot.js') }}"></script>
