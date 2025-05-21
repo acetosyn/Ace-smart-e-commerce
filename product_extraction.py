@@ -1,14 +1,15 @@
 import os
 import json
+import re
 from pathlib import Path
 
-# ✅ Local path to categories.json
+# ✅ Path to categories.json
 CATEGORIES_PATH = Path("static/data/categories.json")
 
 # Basic keyword matching for fallback category detection
 CATEGORY_KEYWORDS = {
     "phones": ["phone", "samsung", "iphone", "infinix", "xiaomi", "pixel", "tecno"],
-    "laptops": ["laptop", "macbook", "thinkpad", "notebook", "zenbook", "aspire"],
+    "laptops": ["laptop", "macbook", "thinkpad", "notebook", "zenbook", "aspire", "rog"],
     "fashion": ["shoe", "shirt", "bag", "sneaker", "suit", "t-shirt", "dress", "blazer"],
     "electronics": ["tv", "television", "headphone", "speaker", "camera", "earbud", "powerbank", "drone"],
     "home_appliances": ["fan", "microwave", "fridge", "air conditioner", "kettle", "freezer", "washing machine"],
@@ -20,12 +21,38 @@ CATEGORY_KEYWORDS = {
     "automotive": ["tyre", "battery", "oil", "filter", "engine", "wiper", "car"]
 }
 
+
 def detect_category(product_name: str) -> str:
     name = product_name.lower()
     for cat, keywords in CATEGORY_KEYWORDS.items():
         if any(word in name for word in keywords):
             return cat
     return "general"
+
+
+def clean_product_name(raw_name: str) -> str:
+    """
+    Remove unnecessary technical specs, model codes, and excessive descriptors.
+    """
+    name = raw_name.strip()
+
+    # Remove text in parentheses or brackets
+    name = re.sub(r"[\(\[].*?[\)\]]", "", name)
+
+    # Remove long numeric strings, model numbers, special symbols
+    name = re.sub(r"[-–—]{0,1}\s*\b(?:[A-Z]{1,4}[-]?\d{3,}.*|[A-Z]{2,}-\d{3,}.*?)\b", "", name)
+
+    # Remove frequencies, resolutions, technical units, sizes, etc.
+    name = re.sub(r"\b(\d{3,4}x\d{3,4}|\d{2,3}(Hz|GB|TB|inch|in)|Wi[-]?Fi|5G|4G|RAM|SSD|HDD|RTX|Intel|Core|Gen\d+|Windows\s?\d+|DDR\d?|PCIe.*?)\b", "", name, flags=re.I)
+
+    # Collapse multiple spaces
+    name = re.sub(r"\s{2,}", " ", name)
+
+    # Remove trailing punctuation
+    name = name.strip(" ,.-")
+
+    return name.strip()
+
 
 def update_categories_with_products(products: list):
     if not CATEGORIES_PATH.exists():
@@ -38,18 +65,25 @@ def update_categories_with_products(products: list):
     updated = False
 
     for product in products:
-        name = product.get("name", "").strip()
-        if not name:
+        raw_name = product.get("name", "").strip()
+        if not raw_name:
             continue
 
-        category = detect_category(name)
+        clean_name = clean_product_name(raw_name)
+        if not clean_name:
+            continue
+
+        category = detect_category(clean_name)
         if category not in categories:
             categories[category] = []
 
-        if name not in categories[category]:
-            categories[category].append(name)
+        existing_names = [n.lower() for n in categories[category]]
+        if clean_name.lower() not in existing_names:
+            categories[category].append(clean_name)
             updated = True
-            print(f"[✅ ADDED] '{name}' → {category}")
+            print(f"[✅ ADDED] '{clean_name}' → {category}")
+        else:
+            print(f"[ℹ️] Skipped duplicate: {clean_name}")
 
     if updated:
         with open(CATEGORIES_PATH, "w", encoding="utf-8") as f:
@@ -57,20 +91,3 @@ def update_categories_with_products(products: list):
         print("[💾] categories.json updated successfully.")
     else:
         print("[ℹ️] No new entries were added.")
-
-def extract_and_store_products(results: list):
-    """
-    Given raw scraped `results` from any site,
-    extract product names and add them to categories.json
-    """
-    if not results or not isinstance(results, list):
-        print("[WARN] Invalid or empty results passed to extraction.")
-        return
-
-    all_products = []
-    for site_block in results:
-        for item in site_block.get("data", []):
-            if "name" in item:
-                all_products.append(item)
-
-    update_categories_with_products(all_products)
