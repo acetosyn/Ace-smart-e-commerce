@@ -6,7 +6,7 @@ from pathlib import Path
 # ✅ Path to categories.json
 CATEGORIES_PATH = Path("static/data/categories.json")
 
-# Basic keyword matching for fallback category detection
+# Category keywords for classification
 CATEGORY_KEYWORDS = {
     "phones": ["phone", "samsung", "iphone", "infinix", "xiaomi", "pixel", "tecno"],
     "laptops": ["laptop", "macbook", "thinkpad", "notebook", "zenbook", "aspire", "rog"],
@@ -32,24 +32,28 @@ def detect_category(product_name: str) -> str:
 
 def clean_product_name(raw_name: str) -> str:
     """
-    Remove unnecessary technical specs, model codes, and excessive descriptors.
+    Clean product name by removing specs, models, sizes, and excessive descriptors.
     """
     name = raw_name.strip()
 
     # Remove text in parentheses or brackets
     name = re.sub(r"[\(\[].*?[\)\]]", "", name)
 
-    # Remove long numeric strings, model numbers, special symbols
-    name = re.sub(r"[-–—]{0,1}\s*\b(?:[A-Z]{1,4}[-]?\d{3,}.*|[A-Z]{2,}-\d{3,}.*?)\b", "", name)
+    # Remove model codes like 'G614JV-AS74' or 'ABC1234'
+    name = re.sub(r"\b([A-Z]{2,}-?\d{2,}[\w\-]*)\b", "", name)
 
-    # Remove frequencies, resolutions, technical units, sizes, etc.
-    name = re.sub(r"\b(\d{3,4}x\d{3,4}|\d{2,3}(Hz|GB|TB|inch|in)|Wi[-]?Fi|5G|4G|RAM|SSD|HDD|RTX|Intel|Core|Gen\d+|Windows\s?\d+|DDR\d?|PCIe.*?)\b", "", name, flags=re.I)
+    # Remove specs like 16GB, 1TB, 165Hz, etc.
+    name = re.sub(r"\b\d{2,4}(GB|TB|Hz|inch|in|MP|W|mAh|px|%)\b", "", name, flags=re.I)
 
-    # Collapse multiple spaces
+    # Remove other tech specs and symbols
+    name = re.sub(r"\b(Wi[-]?Fi|Bluetooth|RTX|DDR\d?|HDD|SSD|RAM|PCIe|Intel|Core|Gen\d+|Windows\s?\d+)\b", "", name, flags=re.I)
+
+    # Remove extra hyphens, slashes, etc.
+    name = re.sub(r"[-_/|•]", " ", name)
+
+    # Remove extra punctuation and collapse spaces
+    name = re.sub(r"[^\w\s]", "", name)
     name = re.sub(r"\s{2,}", " ", name)
-
-    # Remove trailing punctuation
-    name = name.strip(" ,.-")
 
     return name.strip()
 
@@ -77,8 +81,9 @@ def update_categories_with_products(products: list):
         if category not in categories:
             categories[category] = []
 
-        existing_names = [n.lower() for n in categories[category]]
-        if clean_name.lower() not in existing_names:
+        # Prevent duplicates (case-insensitive)
+        existing = [item.lower() for item in categories[category]]
+        if clean_name.lower() not in existing:
             categories[category].append(clean_name)
             updated = True
             print(f"[✅ ADDED] '{clean_name}' → {category}")
@@ -91,3 +96,22 @@ def update_categories_with_products(products: list):
         print("[💾] categories.json updated successfully.")
     else:
         print("[ℹ️] No new entries were added.")
+
+
+def extract_and_store_products(results: list):
+    """
+    Extract product names from results and push to categories.json
+    """
+    if not results or not isinstance(results, list):
+        print("[WARN] Invalid or empty results passed to extraction.")
+        return
+
+    all_products = []
+    for site_block in results:
+        if not isinstance(site_block, dict):
+            continue
+        for item in site_block.get("data", []):
+            if "name" in item:
+                all_products.append(item)
+
+    update_categories_with_products(all_products)
