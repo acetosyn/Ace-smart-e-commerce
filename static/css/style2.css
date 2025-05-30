@@ -1,37 +1,4 @@
 /* ============================= */
-/* Shopping Start Section */
-/* ============================= */
-.shopping_start {
-    text-align: center;
-    padding: 120px 0 60px; /* Push downward */
-    background: #f8f9fa;
-}
-
-.banner_title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #343a40;
-    margin-bottom: 15px;
-    font-family: 'Poppins', sans-serif;
-}
-
-.buynow_bt a {
-    display: inline-block;
-    background-color: #f26522;
-    color: white;
-    padding: 10px 22px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.buynow_bt a:hover {
-    background-color: #d35400;
-}
-
-
-/* ============================= */
 /* Sidebar */
 /* ============================= */
 .sidebar {
@@ -44,200 +11,158 @@
     left: 0;
     height: calc(100vh - 120px);
     overflow-y: auto;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
     font-family: 'Poppins', sans-serif;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Sidebar Hover Effect */
 .menu .category:hover,
 .menu .sub-menu li:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: #ff6600;
 }
 
-
 /* ============================= */
-/* Larger, Unified Search Section with search_cart.jpg */
+/* Search Section (Hero Area) */
 /* ============================= */
 .search_section {
     text-align: center;
-    padding: 180px 20px;
+    padding: 200px 30px;
     background: url('../images/search_cart2.jpg') no-repeat center center/cover;
     color: white;
 }
 
-/* Search Area Wrapper */
-.search_area .input-group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 95%;
-    max-width: 1100px;
+/* ============================= */
+/* Giant Unified Search Wrapper */
+/* ============================= */
+.giant-search-wrapper {
+    background-color: rgba(255, 255, 255, 0.98);
+    border-radius: 50px;
+    padding: 30px 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    max-width: 1600px;
     margin: 0 auto;
-    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+
+    /* 👇 Add these lines */
+    position: relative;
+    overflow: visible;
 }
 
-/* Category Dropdown (left) */
-.search_area .form-select {
-    font-size: 22px;
-    padding: 24px 20px;
+
+/* Flex container for dropdown, input and button */
+.search-group {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-group .form-select {
+    font-size: 28px;
+    padding: 0 30px;
     border: none;
-    background: white;
-    color: black;
-    border-radius: 10px 0 0 10px;
-    min-width: 230px;
-    height: 70px;
-    box-sizing: border-box;
+    background: #fff;
+    color: #333;
+    min-width: 300px;
+    border-radius: 50px 0 0 50px;
+    height: 100%;
+    flex-shrink: 0;
 }
 
-/* Search Input (middle) */
-.search_area input {
-    font-size: 24px;
-    padding: 24px 30px;
+.search-group input.form-control {
+    font-size: 32px;
+    padding: 0 40px;
     border: none;
     outline: none;
-    flex: 1;
-    background: white;
-    color: black;
-    height: 70px;
-    box-sizing: border-box;
-}
-
-/* Search Button (right) */
-.search_area button {
-    font-size: 22px;
-    font-weight: bold;
-    background-color: #f26522;
-    color: white;
-    padding: 0 40px;
-    height: 70px;
-    border: none;
-    border-radius: 0 10px 10px 0;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.search_area button:hover {
-    background-color: #d35400;
-}
-
-.search_area button i {
-    margin-right: 8px;
-    font-size: 20px;
-}
-
-/* Autocomplete Suggestions */
-.autocomplete-box {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    color: black;
-    border: 1px solid #ccc;
-    z-index: 999;
-    font-size: 18px;
-    max-height: 300px;
-    overflow-y: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-
-/* ============================= */
-/* Mobile Responsive Adjustments */
-/* ============================= */
-@media (max-width: 768px) {
-    .search_area .input-group {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .search_area .form-select,
-    .search_area input,
-    .search_area button {
-        width: 100%;
-        border-radius: 10px !important;
-        font-size: 20px;
-        height: 60px;
-    }
-
-    .search_area button {
-        padding: 0 20px;
-    }
-
-    .banner_title {
-        font-size: 22px;
-    }
-
-    .buynow_bt a {
-        font-size: 14px;
-        padding: 10px 16px;
-    }
-
-    .shopping_start {
-        padding: 80px 20px 40px;
-    }
-}
-
-
-/* ============================= */
-/* Category Dropdown Styling */
-/* ============================= */
-#categorySelect.form-select,
-#specificSitesDropdown.form-select {
-    background: rgba(255, 255, 255, 0.9);
-    color: black;
-    font-size: 16px;
-    padding: 15px;
-    border: none;
-    border-radius: 5px 0 0 5px;
+    background: #fff;
+    color: #111;
     height: 100%;
-    width: 220px;
-    max-width: none;
-    flex-shrink: 0;
-    margin-right: 5px;
-}
-
-
-/* Adjust the middle input to remove left border radius */
-.search_area input.form-control {
+    flex: 1;
     border-radius: 0;
 }
 
-/* Search button keeps its right-side rounding */
-.search_area button.search-btn {
-    border-radius: 0 5px 5px 0;
+.search-group button.search-btn {
+    font-size: 28px;
+    font-weight: bold;
+    background-color: #f26522;
+    color: white;
+    padding: 0 60px;
+    border: none;
+    border-radius: 0 50px 50px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease-in-out;
+    height: 100%;
 }
 
-/* Mobile override for dropdown/input/button */
+.search-group button.search-btn:hover {
+    background-color: #d35400;
+}
+
+.search-group button.search-btn i {
+    margin-right: 12px;
+    font-size: 26px;
+}
+
+/* ============================= */
+/* Specific Sites Dropdown */
+/* ============================= */
+#specificSitesDropdown {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: black;
+    font-size: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 100%;
+    margin-top: 10px;
+}
+
+/* ============================= */
+/* Mobile Responsive */
+/* ============================= */
 @media (max-width: 768px) {
-    #categorySelect.form-select,
-    .search_area input.form-control,
-    .search_area button.search-btn {
+    .giant-search-wrapper {
+        border-radius: 30px;
+        padding: 20px;
+    }
+
+    .search-group {
+        flex-direction: column;
+        height: auto;
+        border-radius: 30px;
+    }
+
+    .search-group .form-select,
+    .search-group input.form-control,
+    .search-group button.search-btn {
         width: 100%;
-        border-radius: 5px;
+        height: 80px;
+        font-size: 22px;
+        border-radius: 30px !important;
+        margin-bottom: 10px;
+    }
+
+    .search-group button.search-btn {
+        margin-bottom: 0;
+    }
+
+    #specificSitesDropdown {
+        font-size: 18px;
     }
 }
 
-
-/* Utility: hide element */
+/* ============================= */
+/* Utility Classes */
+/* ============================= */
 .hidden {
-  display: none !important;
-}
-
-/* Style for the multi-select dropdown */
-#specificSitesDropdown {
-  background-color: rgba(255, 255, 255, 0.95);
-  color: black;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  width: 100%;
-  margin-top: 10px;
-  max-width: 800px;
+    display: none !important;
 }

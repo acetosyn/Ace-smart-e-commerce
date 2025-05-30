@@ -1,105 +1,64 @@
 /* === PROMO HEADER === */
 .promo_header {
-    text-align: center;
-    padding: 20px 10px; /* compact height */
-    color: white;
-    position: relative;
-    border-top: 3px solid #ff6600;
-    animation: promoBackground 80s infinite linear;
-    background-size: cover;
-    background-position: center;
-}
-
-.promo_header .container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 10px;
-}
-
-/* Slightly bigger title */
-.promo_header h1 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: white;
-}
-
-/* Slightly larger paragraph */
-.promo_header p {
-    font-size: 16px;
-    font-weight: 400;
+  text-align: center;
+  padding: 20px 10px;
+  color: white;
+  position: relative;
+  border-top: 3px solid #f26522;
+  animation: promoBackground 80s infinite linear;
+  background-size: cover;
+  background-position: center;
 }
 
 /* === TYPEWRITER EFFECT === */
 .typewriter-wrapper {
-    font-size: 18px;
-    font-style: italic;
+  font-style: italic;
 }
 
 .typewriter-container {
-    display: inline-block;
-    font-size: 1.4rem;
-    color: orange;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 2px solid transparent;
-    width: fit-content;
-    margin: 1rem auto;
-    font-weight: 500;
-    font-family: monospace;
+  display: inline-block;
+  font-size: 1.4rem;
+  color: orange;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid transparent;
+  width: fit-content;
+  margin: 1rem auto;
+  font-weight: 500;
+  font-family: monospace;
 }
 
 .typewriter-text {
-    display: inline-block;
-    color: white;
-    position: relative;
+  display: inline-block;
+  color: white;
+  position: relative;
 }
 
 .cursor {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 2px;
-    height: 100%;
-    background-color: white;
-    animation: blink-caret 0.75s step-end infinite;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background-color: white;
+  animation: blink-caret 0.75s step-end infinite;
 }
 
 @keyframes blink-caret {
-    0% { background-color: transparent; }
-    50% { background-color: white; }
-    100% { background-color: transparent; }
+  0% { background-color: transparent; }
+  50% { background-color: white; }
+  100% { background-color: transparent; }
 }
 
 /* === BACKGROUND SLIDER === */
 @keyframes promoBackground {
-    0%   { background: url('../images/products9.jpg') no-repeat center center/cover; }
-    12.5% { background: url('../images/products2.png') no-repeat center center/cover; }
-    25%  { background: url('../images/products3.jpg') no-repeat center center/cover; }
-    37.5% { background: url('../images/products4.jpg') no-repeat center center/cover; }
-    50%  { background: url('../images/products5.jpg') no-repeat center center/cover; }
-    62.5% { background: url('../images/products6.jpg') no-repeat center center/cover; }
-    75%  { background: url('../images/products7.jpg') no-repeat center center/cover; }
-    87.5% { background: url('../images/products8.jpg') no-repeat center center/cover; }
-    100% { background: url('../images/products9.jpg') no-repeat center center/cover; }
-}
-
-/* === MOBILE RESPONSIVE === */
-@media (max-width: 768px) {
-    .promo_header {
-        padding: 15px 10px;
-    }
-
-    .promo_header h1 {
-        font-size: 20px;
-    }
-
-    .promo_header p,
-    .typewriter-wrapper {
-        font-size: 14px;
-    }
-
-    .typewriter-container {
-        font-size: 1.1rem;
-    }
+  0%   { background: url('../images/products9.jpg') no-repeat center center/cover; }
+  12.5% { background: url('../images/products2.png') no-repeat center center/cover; }
+  25%  { background: url('../images/products3.jpg') no-repeat center center/cover; }
+  37.5% { background: url('../images/products4.jpg') no-repeat center center/cover; }
+  50%  { background: url('../images/products5.jpg') no-repeat center center/cover; }
+  62.5% { background: url('../images/products6.jpg') no-repeat center center/cover; }
+  75%  { background: url('../images/products7.jpg') no-repeat center center/cover; }
+  87.5% { background: url('../images/products8.jpg') no-repeat center center/cover; }
+  100% { background: url('../images/products9.jpg') no-repeat center center/cover; }
 }

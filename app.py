@@ -21,6 +21,7 @@ from flask_cors import CORS
 from scrap_local import scrape_products_by_category
 from scrap_global import try_single_site_scrape
 from product_extraction import extract_and_store_products
+from llm_engine import summarize_products
 
 
 
@@ -192,40 +193,48 @@ def voice():
 @app.route("/search-products", methods=["POST"])
 def search_products():
     data = request.json
-    query = data.get("query", "").strip().lower()
+    query = (data.get("query") or "").strip().lower()
     category = data.get("category", "ratings")
-    selected_site = data.get("specificSite", "")
+    
+    # Safely handle specificSite (could be None)
+    raw_selected_site = data.get("specificSite", "")
+    selected_site = raw_selected_site.strip() if isinstance(raw_selected_site, str) else ""
+
     bot_type = data.get("bot_type", "chat")
+
     print(f"[ROUTE] 🔔 Incoming search request: {data}")
 
     if not query:
         return jsonify({"error": "Missing product query"}), 400
 
     try:
+        # ✅ 1. Handle single-site scraping
         if category == "specific-sites":
             if not selected_site:
                 return jsonify({"error": "No specific site selected"}), 400
             results = try_single_site_scrape(query, selected_site)
         else:
+            # ✅ 2. Multi-site or ratings-based scraping
             results, _ = scrape_products_by_category(query, category)
 
-        # ✅ Inject site source into each product
+        # ✅ 3. Add source tag to each product
         for site_result in results:
             site_name = site_result["site"]
             for product in site_result["data"]:
                 product["source"] = site_name
 
-        # ✅ Extract product names into categories.json
-        extract_and_store_products(results)
+        # ✅ 4. Generate summary from LLM
+        summary = summarize_products(query, results)
 
-        response = {"products": results or []}
-
-        if results:
-            site_names = ", ".join(r["site"].capitalize() for r in results)
-            response["message"] = {
-                "text": f"Here are the top products from {site_names} displayed on your screen.",
+        # ✅ 5. Construct and return response
+        response = {
+            "products": results or [],
+            "message": {
+                "text": f"Here are the top products from {', '.join(r['site'].capitalize() for r in results)} displayed on your screen.",
                 "speak": bot_type == "voice"
-            }
+            },
+            "summary": summary
+        }
 
         return jsonify(response), 200
 

@@ -8,6 +8,8 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import traceback
 from product_extraction import extract_and_store_products
+from zenrows import ZenRowsClient
+
 
 load_dotenv()
 SCRAPER_API_KEY = os.getenv("scraper_api")
@@ -83,6 +85,12 @@ def fetch_with_retry(payload, use_scrapingbee=False, retries=3, delay=5):
         time.sleep(random.randint(1, delay))
 
     return None
+#AJEBO
+def fuzzy_partial_match(query, name):
+    query = query.lower().replace("'", "").replace("’", "")
+    name = name.lower().replace("'", "").replace("’", "")
+    return query in name or any(word in name for word in query.split())
+
 
 
 def fuzzy_match(query, name):
@@ -187,35 +195,51 @@ def extract_konga_data(html, product_query):
     return products[:4] if products else []
 
 # SLOT
-def extract_slot_data(html, product_query):
-    soup = BeautifulSoup(html, "html.parser")
-    # print(f"\n\nThe soup object returned here is:\n{soup.prettify()}") 
-    product_cards = soup.select("ul.products li")[:30]
-    products = []
+# SLOT (ZenRows)
+def extract_slot_data(_, product_query):
 
-    for card in product_cards:
-        try:
-            name_elem = card.select_one("h2.woocommerce-loop-product__title")
-            price_elem = card.select_one("span.woocommerce-Price-amount")
-            image_elem = card.select_one("img")
-            link_elem = card.select_one("a.woocommerce-LoopProduct-link")
+    ZENROW_API_KEY = os.getenv("zenrow_scraper_api")
+    client = ZenRowsClient(ZENROW_API_KEY)
 
-            name = name_elem.text.strip() if name_elem else None
-            price = price_elem.text.strip() if price_elem else None
-            link = link_elem["href"] if link_elem else None
-            image = image_elem.get("src") if image_elem else None
+    search_url = f"https://slot.ng/?s={product_query.replace(' ', '+')}"
+    print(f"[ZENROWS] 🌐 Slot Search URL: {search_url}")
 
-            if name and price and link and image and fuzzy_match(product_query, name):
-                products.append({
-                    "name": name,
-                    "price": price,
-                    "url": link,
-                    "image": image
-                })
-        except Exception:
-            continue
+    try:
+        response = client.get(search_url, params={"js_render": "true", "wait_for": ".products"})
+        html = response.text
 
-    return products[:4] if products else []
+        soup = BeautifulSoup(html, "html.parser")
+        product_cards = soup.select("ul.products li")[:30]
+        products = []
+
+        for card in product_cards:
+            try:
+                name_elem = card.select_one("h2.woocommerce-loop-product__title")
+                price_elem = card.select_one("span.woocommerce-Price-amount")
+                image_elem = card.select_one("img")
+                link_elem = card.select_one("a.woocommerce-LoopProduct-link")
+
+                name = name_elem.text.strip() if name_elem else None
+                price = price_elem.text.strip() if price_elem else None
+                link = link_elem["href"] if link_elem else None
+                image = image_elem.get("src") if image_elem else None
+
+                if name and price and link and image and fuzzy_match(product_query, name):
+                    products.append({
+                        "name": name,
+                        "price": price,
+                        "url": link,
+                        "image": image
+                    })
+            except Exception:
+                continue
+
+        return products[:4] if products else []
+    
+    except Exception as e:
+        print(f"[ERROR] ZenRows scraping failed for Slot: {e}")
+        return []
+
 
 
 #KARA EXTRACT
@@ -251,36 +275,50 @@ def extract_kara_data(html, product_query):
     return products[:4] if products else []
 
 
-#AJEBO MARKET EXTRACT
 def extract_ajebomarket_data(html, product_query):
-    soup = BeautifulSoup(html, "html.parser")
-    # print(f"\n\nThe soup object returned here is:\n{soup.prettify()}") 
-    product_cards = soup.select("li.product")[:30]
-    products = []
+    from bs4 import BeautifulSoup
 
+    soup = BeautifulSoup(html, "html.parser")
+    product_cards = soup.select("div.card-wrapper")[:30]
+    print(f"[DEBUG] Ajebomarket: Found {len(product_cards)} product cards.")
+
+    products = []
     for card in product_cards:
         try:
-            name_elem = card.select_one("h2.woocommerce-loop-product__title")
-            price_elem = card.select_one("span.woocommerce-Price-amount")
+            name_elem = card.select_one("h3.product__title a")  # ✅ updated selector
+            price_elem = card.select_one("span.price")
             image_elem = card.select_one("img")
-            link_elem = card.select_one("a.woocommerce-LoopProduct-link")
+            link_elem = name_elem
 
             name = name_elem.text.strip() if name_elem else None
             price = price_elem.text.strip() if price_elem else None
-            link = link_elem["href"] if link_elem else None
             image = image_elem.get("src") if image_elem else None
+            if image and image.startswith("//"):
+                image = "https:" + image
+            link = link_elem.get("href") if link_elem else None
+            if link and link.startswith("/"):
+                link = "https://ajebomarket.com" + link
 
-            if name and price and link and image and fuzzy_match(product_query, name):
+            if not name:
+                continue  # ⛔ skip before matching if name is None
+
+            print(f"[CHECK] {name} → Match: {fuzzy_partial_match(product_query, name)}")
+
+            if price and image and link and fuzzy_partial_match(product_query, name):
                 products.append({
                     "name": name,
                     "price": price,
                     "url": link,
                     "image": image
                 })
-        except Exception:
+        except Exception as e:
+            print(f"[ERROR] Ajebomarket parsing error: {e}")
             continue
 
+    print(f"[INFO] Ajebomarket: Returning {len(products[:4])} products.")
     return products[:4] if products else []
+
+
 
 
 #TOP SUCCES EXTRACT 

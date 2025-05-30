@@ -1,25 +1,35 @@
 # trigger.py
 
+RATING_SITES = ["jumia", "amazon"]
+
+# Restrict fetch phrases to rating sites only, and explicitly structured fetch intents
 FETCH_PHRASES = {
-    "jumia": ["from jumia", "yes jumia", "get it from jumia", "fetch it from jumia", "search for it from jumia"],
-    "amazon": ["from amazon", "yes amazon", "get it from amazon", "fetch it from amazon", "search for it from amazon"],
-    "konga": ["from konga", "yes konga", "get it from konga", "fetch it from konga", "search for it from konga"],
-    "slot": ["from slot", "yes slot", "get it from slot"],
-    "kara": ["from kara", "yes kara", "get it from kara"],
-    "ajebomarket": ["from ajebo", "from ajebomarket", "yes ajebo", "get it from ajebo"],
-    "jiji": ["from jiji", "yes jiji", "get it from jiji"]
+    "jumia": ["fetch from jumia", "get it from jumia", "search from jumia"],
+    "amazon": ["fetch from amazon", "get it from amazon", "search from amazon"]
 }
 
 def detect_fetch_trigger(user_input):
-    """Detects if user input contains a fetch trigger for a specific site."""
-    user_input = user_input.lower()
-    for site, phrases in FETCH_PHRASES.items():
+    """
+    Detects if user input contains a valid and explicit fetch trigger
+    for a rating-supported site only.
+    """
+    user_input = user_input.lower().strip()
+    
+    for site in RATING_SITES:
+        phrases = FETCH_PHRASES.get(site, [])
         if any(p in user_input for p in phrases):
             return site
+    
     return None
 
-def generate_fetch_response(site, product_name):
-    """Returns a fetch command for the detected site and product."""
+
+def generate_fetch_response(site, product_name, last_suggested=None):
+    """
+    Returns a formatted fetch command and response string.
+    """
+    if product_name.strip().lower() == "it" and last_suggested:
+        product_name = last_suggested
+
     product_name = product_name.title()
     site_label = site.capitalize() if site != "ajebomarket" else "AjeboMarket"
     return (

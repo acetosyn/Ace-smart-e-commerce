@@ -17,49 +17,61 @@ function typeWriterEffect(text, element, callback) {
     type();
 }
 
-// Detect smart Jumia trigger from bot response only (not user input)
-function detectJumiaTrigger(message) {
-    const searchInput = document.getElementById("search-bar");
+// === Dual Trigger Detection ===
+function detectFetchTrigger(message) {
+    const input = document.getElementById("search-bar");
 
-    const fetchIndex = message.indexOf("__FETCH_FROM_JUMIA__");
+    // 1. First check structured marker (recommended LLM format)
+    const match = message.match(/__FETCH_FROM_(JUMIA|AMAZON)__(.+)/i);
+    if (match) {
+        const site = match[1].toLowerCase();
+        let product = match[2].trim();
 
-    if (fetchIndex !== -1) {
-        const lines = message.split("\n");
-        let productLine = "";
-
-        for (const line of lines) {
-            if (line.toLowerCase().startsWith("fetching ")) {
-                productLine = line;
-                break;
+        if (product.toLowerCase() === "it" || product === "") {
+            const last = sessionStorage.getItem("lastSuggestedProduct");
+            if (last) {
+                typeTextAndSearch(last, site);
+                return;
             }
         }
 
-        if (productLine) {
-            const productMatch = productLine.match(/Fetching (.+?) from Jumia/i);
-            let product = "";
+        const cleaned = cleanProductName(product);
+        const formatted = capitalizeProductName(cleaned, true);
+        sessionStorage.setItem("lastSuggestedProduct", formatted);
+        typeTextAndSearch(formatted, site);
+        return;
+    }
 
-            if (productMatch && productMatch[1]) {
-                product = productMatch[1].toLowerCase().trim();
-            }
+    // 2. If no marker found, try detecting natural phrases like: "Searching for X on Amazon..."
+    const lowerMsg = message.toLowerCase();
 
-            if (product === "it" || product === "") {
-                const last = sessionStorage.getItem("lastSuggestedProduct");
-                if (last) {
-                    typeTextAndSearch(last);
-                    return;
-                }
-            }
+    if (lowerMsg.includes("searching for") && lowerMsg.includes("on amazon")) {
+        const regex = /searching for "(.*?)" on amazon/i;
+        const productMatch = message.match(regex);
+        let product = "";
 
-            const cleaned = cleanProductName(product);
-            const formatted = capitalizeProductName(cleaned, true);
-            sessionStorage.setItem("lastSuggestedProduct", formatted);
-            typeTextAndSearch(formatted);
+        if (productMatch && productMatch[1]) {
+            product = productMatch[1].trim();
         }
+
+        if (!product || product === "it") {
+            const last = sessionStorage.getItem("lastSuggestedProduct");
+            if (last) {
+                typeTextAndSearch(last, "amazon");
+                return;
+            }
+        }
+
+        const cleaned = cleanProductName(product);
+        const formatted = capitalizeProductName(cleaned, true);
+        sessionStorage.setItem("lastSuggestedProduct", formatted);
+        typeTextAndSearch(formatted, "amazon");
     }
 }
 
+
 // Auto-fill input with typewriter effect and perform search
-function typeTextAndSearch(productName) {
+function typeTextAndSearch(productName, site = "") {
     const input = document.getElementById("search-bar");
     const capitalizedName = capitalizeProductName(productName); // Ensure title-case
     input.value = "";
@@ -72,6 +84,14 @@ function typeTextAndSearch(productName) {
             i++;
             setTimeout(typeChar, typingSpeed);
         } else {
+            // Inject site into search logic if applicable
+            if (site) {
+                const dropdown = document.getElementById("specific-site-dropdown");
+                if (dropdown) dropdown.value = site;
+                const categorySelect = document.getElementById("category-select");
+                if (categorySelect) categorySelect.value = "specific-sites";
+            }
+
             setTimeout(() => {
                 const searchBtn = document.querySelector(".search-btn");
                 if (searchBtn) {
@@ -93,7 +113,7 @@ function cleanProductName(text) {
     const stopWords = [
         "fetch", "get", "find", "look for", "search for", "buy", "order",
         "to", "show me", "get me", "i want", "i want to", "i want to buy", "find me",
-        "the", "a", "an", "from jumia", "on jumia", "for jum", "in", "jum", "from", "for", "it"
+        "the", "a", "an", "from jumia", "on jumia", "from amazon", "on amazon", "in", "for", "it"
     ];
 
     let cleaned = text.toLowerCase();
@@ -103,15 +123,8 @@ function cleanProductName(text) {
         cleaned = cleaned.replace(pattern, "");
     });
 
-    // Remove multiple spaces and trim
     return cleaned.replace(/\s{2,}/g, " ").trim();
 }
-
-
-// Expose for voicebot and chatbot
-window.cleanProductName = cleanProductName;
-window.detectJumiaTrigger = detectJumiaTrigger;
-window.typeTextAndSearch = typeTextAndSearch;
 
 // Capitalize or standardize product names
 function capitalizeProductName(text, isFromLLM = false) {
@@ -183,3 +196,23 @@ function levenshtein(a, b) {
 
     return dp[a.length][b.length];
 }
+
+// === Hook for chatbot/voicebot to intercept LLM messages ===
+function handleBotResponse(message) {
+    // Optional: Only call if function exists
+    if (typeof addBotMessage === "function") {
+        addBotMessage(message);
+    } else {
+        console.warn("⚠️ addBotMessage() not defined – skipping chat UI render.");
+    }
+
+    // Always detect triggers
+    detectFetchTrigger(message);
+}
+
+
+// Expose for chatbot/voicebot
+window.cleanProductName = cleanProductName;
+window.detectFetchTrigger = detectFetchTrigger;
+window.typeTextAndSearch = typeTextAndSearch;
+window.handleBotResponse = handleBotResponse;

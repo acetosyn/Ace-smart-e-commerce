@@ -17,7 +17,10 @@
     "Chuwi HeroBook Pro",
     "Avita Liber V14",
     "ASUS ROG Strix G16 Gaming Laptop, 165Hz Display, NVIDIA® GeForce RTX™ 4060, Intel Core i7-13650HX, 16GB DDR5, 1TB PCIe Gen4 SSD, Wi-Fi 6E, Windows 11, G614JV-AS74",
-    "ASUS - ROG Zephyrus G14 14\" Gaming Laptop - AMD Ryzen 9-16GB Memory - NVIDIA GeForce RTX 2060-1TB SSD - Moonlight White"
+    "ASUS - ROG Zephyrus G14 14\" Gaming Laptop - AMD Ryzen 9-16GB Memory - NVIDIA GeForce RTX 2060-1TB SSD - Moonlight White",
+    "HP Elitebook 650 G10 15 156 FHD Business Laptop Computer 13th Gen 10 i7 1355U 2TB 6E BT53 Backlit Keyboard Fingerprint Reader Pro AZ XUT",
+    "HP Elitebook 650 G10 156 FHD Business Laptop Computer 13th Gen 10 i5 1335U 6E 53 Backlit KB FR Pro AZ XUT",
+    "HP Elitebook 650 G10 156 FHD Business Laptop Computer 13th Gen 10 i7 1355U 1TB 6E BT 53 Backlit KB Fingerprint Reader Pro AZ XUT Cable"
   ],
   "phones": [
     "Apple iPhone 15 Pro Max",
@@ -34,7 +37,20 @@
     "Sony Xperia 1 V",
     "Asus ROG Phone 7",
     "ZTE Axon 50 Ultra",
-    "Vivo X90 Pro+"
+    "Vivo X90 Pro+",
+    "Apple IPhone 12 Pro Max 67Inch 6GB IOS 14 Gold",
+    "Apple IPhone 12 Pro Max 67 Inch ROM 6GB IOS 14",
+    "Apple iPhone 14 Pro Max Space Black Unlocked",
+    "Apple iPhone 14 Plus Purple Unlocked",
+    "Apple iPhone 15 Pro Max Natural Titanium Unlocked",
+    "Apple iPhone 15 Pro Natural Titanium Unlocked",
+    "Apple iPhone 14 Pro Max Deep Purple Unlocked",
+    "Apple IPhone 15 Pro Max 67 Nano SIM 5G Natural Titanium",
+    "SAMSUNG Galaxy S24 Ultra 5G US Version 1TB Titanium Blue Unlocked",
+    "SAMSUNG Galaxy S23 Ultra 5G US Version Phantom Black Unlocked",
+    "Infinix Hot 50pro Plus Protective Silicone Pouch",
+    "Infinix Hot 50 Pro 678 8GB ROM Android 14 Purple",
+    "Infinix Hot 50 Pro"
   ],
   "fashion": [
     "T-Shirt",
@@ -52,7 +68,10 @@
     "Men's Leather Belt",
     "Women's Evening Gown",
     "Men's Polo Shirt",
-    "Women's Blazer Jacket"
+    "Women's Blazer Jacket",
+    "Calvin Klein Womens Cayle Sneaker",
+    "Calvin Klein Womens Alondra Sneaker",
+    "Calvin Klein Mens Ryor Sneaker"
   ],
   "electronics": [
     "Samsung TV",
@@ -124,7 +143,12 @@
     "SteelSeries Arctis 7 Headset",
     "Alienware Aurora R13 Desktop",
     "Turtle Beach Recon Controller",
-    "BenQ Zowie XL2546K Monitor"
+    "BenQ Zowie XL2546K Monitor",
+    "PlayStation5 console",
+    "PlayStation PS5 Console Fortnite Cobalt Star Digital Edition",
+    "PlayStation 5 Pro Console",
+    "PS5 Console Fortnite Cobalt Star Disc Edition",
+    "CoBak Hard Carrying Shell Case for PlayStation Portal Remote Player with 2 Screen Protector 1 Grip Case 4 Thumb Grip Caps Hard Outer Cover for PS5 Portal Black"
   ],
   "groceries": [
     "Golden Penny Spaghetti 500g",
@@ -193,5 +217,8 @@
     "Shell Helix Ultra 5W-40 Engine Oil",
     "Osram Night Breaker Laser Bulbs",
     "Turtle Wax Scratch Repair Kit"
+  ],
+  "general": [
+    "Calvin Klein Mens Slim High Stretch Jeans"
   ]
 }

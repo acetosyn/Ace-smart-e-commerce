@@ -31,6 +31,10 @@ EXTRACTOR_MAP = {
 ALL_SITES = {**RATING_SITES, **NON_RATING_SITES}
 
 def try_single_site_scrape(product_query, site):
+    from product_extraction import extract_and_store_products  # Ensure it's imported
+    import os
+    import requests
+
     if site not in ALL_SITES or site not in EXTRACTOR_MAP:
         print(f"[ERROR] ❌ Unsupported site: {site}")
         return []
@@ -48,7 +52,23 @@ def try_single_site_scrape(product_query, site):
         extract_and_store_products(result_data)
         return result_data
 
-    # ✅ For other sites
+    # ✅ Slot uses ZenRows internally in its extractor
+    if site == "slot":
+        print("[🌐 ZENROWS] Delegating Slot scraping to ZenRows logic inside extractor.")
+        extractor = EXTRACTOR_MAP[site]
+        products = extractor(None, product_query)
+        if not products:
+            print(f"[WARN] ⚠️ No products found on {site}")
+        else:
+            print(f"[INFO] ✅ Found {len(products)} products on {site}")
+        result_data = [{
+            "site": site,
+            "data": products[:4]
+        }] if products else []
+        extract_and_store_products(result_data)
+        return result_data
+
+    # ✅ Jumia uses ScrapingBee
     search_url = ALL_SITES[site] + product_query.replace(" ", "+")
     print(f"[DEBUG] 🌐 Search URL: {search_url}")
 
@@ -59,6 +79,15 @@ def try_single_site_scrape(product_query, site):
             "render_js": "true"
         }
         proxy_url = "https://app.scrapingbee.com/api/v1"
+
+    elif site == "ajebomarket":
+        payload = {
+            "api_key": os.getenv("scraping_dog_api"),
+            "url": search_url,
+            "dynamic": "true"
+        }
+        proxy_url = "https://api.scrapingdog.com/scrape"
+        
     else:
         payload = {
             'api_key': SCRAPER_API_KEY,

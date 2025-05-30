@@ -1,162 +1,162 @@
-/* Ensure Footer Stays at the Bottom */
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #eaeaea;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Ensures full page height */
-}
+/* ---------------------------------- */
+/* Base Setup from layout.css handles:
+   - body layout (font, margin, padding, min-height)
+   - layout containers
+   - spacing, flex, grid, buttons
+   - text helpers
+---------------------------------- */
 
-/* Push Footer to the Bottom */
+/* ========== FOOTER ========== */
 footer {
-    margin-top: auto; /* Pushes footer to the bottom */
-    text-align: center;
-    padding: 25px;
-    background-color: #222;
-    color: white;
+  margin-top: auto;
+  text-align: center;
+  padding: 25px;
+  background-color: #222;
+  color: white;
 }
 
-/* Top Header with Logo */
+/* ========== TOP HEADER ========== */
 .top_header {
-    background-color: #211749;
-    padding: 2px;
-    height: 120px; /* Increased height to accommodate logo */
-    /* display: flex; */
+  background-color: #211749;
+  padding: 0;
+  position: relative;
+}
+
+.header-top-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #04175d;
+  padding: 6px 20px;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: auto;
+  padding-right: 20px;
+}
+
+.header-top-content i {
+  margin-right: 6px;
+  color: #ffcc00;
+  font-size: 15px;
+}
+
+@media (max-width: 768px) {
+  .header-top-content {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .header-left,
+  .header-right {
+    flex-direction: column;
     align-items: center;
-    position: relative;
+    gap: 6px;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
 }
 
-/* Logo Section */
-.logo_section {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    top: 10px;
-    left: 2px;
-}
-
-/* Logo */
-.logo_section img {
-    height: 110px; /* Restore the original size */
-    display: block;
-}
-
-
-/* Main Navigation */
+/* ========== MAIN NAVIGATION ========== */
 .main_nav {
     background: linear-gradient(to right, #04175d, #0a2a7e);
-    padding: 20px;
+    padding: 8px 15px; /* Reduced from 15px 20px */
     color: white;
     display: flex;
-    justify-content: flex-end; /* Align everything to the right */
+    flex-wrap: wrap;
+    justify-content: flex-end;
     align-items: center;
     border-bottom: 3px solid #ff6600;
 }
 
-/* Navigation Links */
+.main_nav .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .nav_links {
-    margin-left: auto;
-    padding-right: 100px; /* Pushes the menu further right */
+  margin-left: auto;
 }
 
 .nav_links ul {
-    list-style: none;
-    display: flex;
-    gap: 40px; /* Increase spacing between menu items */
-    justify-content: flex-end; /* Align links to the extreme right */
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  padding: 0;
+  margin: 0;
 }
 
-/* Navigation Link Styling */
 .nav_links a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    transition: color 0.3s ease-in-out;
-    padding: 10px 20px; /* Adds more spacing inside links */
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 6px 12px;
+  transition: color 0.3s ease-in-out;
 }
 
-/* Adjust the "Buy Pro Version" Button */
+.nav_links a:hover {
+  color: #ffcc00;
+}
+
 .nav_links .pro_version {
-    background-color: #ff6600;
-    padding: 10px 25px;
-    border-radius: 5px;
-    font-weight: bold;
-    color: white;
-    transition: background 0.3s ease-in-out;
+  background-color: #ff6600;
+  padding: 6px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  transition: background 0.3s ease-in-out;
 }
 
 .nav_links .pro_version:hover {
-    background-color: #d35400;
+  background-color: #d35400;
 }
 
-/* Hover Effect for Other Nav Links */
-.nav_links a:hover {
-    color: #ffcc00;
+@media (max-width: 768px) {
+  .main_nav .container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav_links ul {
+    flex-direction: column;
+    gap: 12px;
+  }
 }
 
-/* First Header: Contact Info & User Actions */
-.header-top-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #04175d; /* Matches second header */
-    padding: 10px 60px; /* Increased padding for spacing */
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-/* Left Section (Phone, Email, Free Shipping) */
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 40px; /* Increased spacing between left-side items */
-}
-
-/* Right Section (Track Order, Register, Login) */
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Increased spacing */
-    margin-left: auto;
-    padding-right: 120px; 
-}
-
-/* Ensure spacing between icons and text */
-.header-top-content i {
-    margin-right: 8px;
-    color: #ffcc00; /* Gold color for better visibility */
-    font-size: 16px;
-}
-
-
-
-/* Style for the logout button */
+/* ========== LOGOUT BUTTON ========== */
 .logout-btn {
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    padding: 8px 15px;
-    background-color: #ff6600;
-    border-radius: 5px;
-    transition: background 0.3s ease-in-out;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 6px 12px;
+  background-color: #ff6600;
+  border-radius: 5px;
+  transition: background 0.3s ease-in-out;
 }
 
 .logout-btn:hover {
-    background-color: #d35400;
+  background-color: #d35400;
 }
 
-/* Style for profile icon */
+/* ========== PROFILE ICON ========== */
 .profile-icon {
-    display: inline-block;
-    margin-left: 10px;
-    vertical-align: middle;
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
 }
-
-
-

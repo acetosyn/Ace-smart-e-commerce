@@ -1,114 +1,77 @@
-/* Sidebar Wrapper */
-.sidebar-wrapper {
-    position: absolute;
-    left: 0;
-    top: 50; /* Changed from 180px */
-    height: auto;
-    z-index: 1000;
-}
-
-/* Sidebar */
+/* === SIDEBAR WRAPPER === */
 .sidebar {
-    width: 150px;
-    background-color: #04175d;
-    color: white;
-    padding: 20px;
-    min-height: 100vh;
-    height: auto;
-    overflow-y: auto;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
-    transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
-    position: absolute;
-    top: 50; /* Changed from 180px */
-    left: 0;
+  width: 150px;
+  background-color: #04175d;
+  color: white;
+  min-height: 100vh;
+  overflow-y: auto;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
 }
 
-
-/* Adjust page content when sidebar expands/collapses */
-.main-content {
-    margin-left: 150px; /* Push content to the right when sidebar is expanded */
-    transition: margin-left 0.3s ease-in-out;
-}
-
-
-/* Collapsed Sidebar */
+/* === COLLAPSED STATE === */
 .sidebar.collapsed {
-    width: 0; /* Completely hide sidebar */
-    padding: 0;
-    overflow: hidden;
+  width: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 .sidebar.collapsed + .main-content {
-    margin-left: 0; /* Pull content back when sidebar collapses */
+  margin-left: 0;
 }
 
-/* Sidebar Header */
-.sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Align toggle button beside Categories */
-    font-size: 20px;
-    font-weight: bold;
-    padding-bottom: 10px;
-    position: relative;
-}
-
-/* Sidebar Toggle Button */
+/* === TOGGLE BUTTON === */
 .sidebar-toggle {
-    position: absolute; /* Keep it fixed when scrolling */
-    top: 110px; /* Moves it UP */
-    left: 0px; /* Moves it further RIGHT */
-    background: #ff6600;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-    z-index: 1100; /* Ensures it stays above other elements */
+  position: absolute;
+  top: 110px;
+  left: 0;
+  background: #f26522;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  z-index: 1100;
 }
 
-
-/* Move Toggle Button When Collapsed */
 .sidebar.collapsed + .sidebar-toggle {
-    left: 10px; /* Bring it closer */
+  left: 10px;
 }
 
-/* Sidebar Menu */
+/* === MENU STYLING === */
 .menu {
-    list-style-type: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
-/* Sidebar Category */
 .menu .category {
-    font-weight: bold;
-    padding: 12px;
-    cursor: pointer;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    transition: background-color 0.3s, color 0.3s;
+  font-weight: bold;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Sidebar Hover Effect */
 .menu .category:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ff6600;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f26522;
 }
 
-/* Submenu */
+/* === SUBMENU === */
 .menu .sub-menu {
-    list-style-type: none;
-    padding-left: 15px;
-    display: none;
+  list-style: none;
+  padding-left: 15px;
+  display: none;
 }
 
-/* Submenu Items */
 .menu .sub-menu li {
-    padding: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
-
-/* Default

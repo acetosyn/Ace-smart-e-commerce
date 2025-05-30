@@ -197,7 +197,7 @@ function handleCategoryChange() {
     specificSitesDropdown.value = "";
     selectedSpecificSite = null;
   } else {
-    specificSitesDropdown.classList.add("hidden");
+    specificSitesDropdown.classList.add("hidden");48
   }
 }
 
