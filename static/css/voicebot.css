@@ -1,92 +1,76 @@
-/* Voice Chat Icon */
+/* Modernized voicebot.css reflecting home.css base */
+
 .voice-chat-icon {
   width: 60px;
   height: 60px;
-  cursor: pointer;
-  background-color: #ff6600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: #f26522;
+  color: white;
   position: fixed;
   bottom: 60px;
   right: 100px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
-.voice-chat-icon:hover {
-  background: #e65c00;
-}
-.voice-chat-icon svg {
-  width: 100%;
-  height: 100%;
-  filter: invert(1);
-}
+.voice-chat-icon:hover { background: #d35400; }
 
-/* Voice Chat Container */
 .voice-chat-container {
   position: fixed;
   bottom: 80px;
   right: 20px;
   width: 420px;
   height: 580px;
+  background: white;
   display: none;
   z-index: 1000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   transform: scale(0.8);
   opacity: 0;
-  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 .voice-chat-container.active {
+  display: block;
   transform: scale(1);
   opacity: 1;
-  display: block;
-  /* DO NOT override right: 20px */
 }
 
-/* Voice Chat Card */
 .voice-chat-card {
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Header */
 .voice-chat-header {
-  background-color: #ff6600;
-  color: #fff;
-  padding: 8px 12px;
-  font-size: 1rem;
-  font-weight: 600;
+  background-color: #f26522;
+  color: white;
+  padding: 10px 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-weight: 600;
 }
 
-/* Header Buttons */
-.voice-chat-header .clear-chat-btn,
-.voice-chat-header .close-voice-chat {
+.clear-chat-btn,
+.close-voice-chat {
   background: none;
   border: none;
-  color: rgb(13, 23, 65);
+  color: #0d1741;
   font-size: 1.2rem;
   cursor: pointer;
-  margin-left: 8px;
   transition: color 0.3s ease;
 }
-.voice-chat-header .clear-chat-btn:hover {
-  color: #ffcc00;
-}
-.voice-chat-header .close-voice-chat:hover {
-  color: #ff3300;
-}
+.clear-chat-btn:hover { color: #ffcc00; }
+.close-voice-chat:hover { color: #ff3300; }
 
-/* Language Dropdown */
 .language-select {
   background: white;
-  color: #ff6600;
+  color: #f26522;
   border: none;
   border-radius: 5px;
   font-size: 1rem;
@@ -96,39 +80,34 @@
   margin-left: auto;
 }
 
-/* Voice Chat Display */
 .voice-chat-display {
   flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
   padding: 10px;
-  background-color: #f9f9f9;
+  overflow-y: auto;
+  background: #f9f9f9;
   display: flex;
   flex-direction: column;
 }
 
-/* Messages */
 .chat {
   border-radius: 16px;
   padding: 10px 14px;
-  max-width: 100%;
   font-size: 0.95rem;
-  margin-bottom: -15px;
+  margin-bottom: 8px;
   line-height: 1.4;
-  word-wrap: break-word;
+  max-width: 85%;
 }
 .bot-message {
-  background-color: #eeeeee;
+  background: #eee;
   color: #333;
-  margin-right: auto;
+  align-self: flex-start;
 }
 .user-message {
-  background-color: #f26522;
+  background: #f26522;
   color: white;
-  margin-left: auto;
+  align-self: flex-end;
 }
 
-/* Avatars */
 .bot-avatar,
 .user-avatar {
   width: 24px;
@@ -136,30 +115,25 @@
   border-radius: 50%;
 }
 
-/* Mic Input Area */
 .voice-input-area {
-  background-color: #fff;
-  padding: 8px;
+  background: white;
+  padding: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-top: 1px solid #ddd;
 }
+
 .mic-button {
   width: 60px;
   height: 60px;
-  cursor: pointer;
   background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.mic-button svg {
-  width: 100%;
-  height: 100%;
+  cursor: pointer;
 }
 
-/* Typing / Listening Indicator */
 .speaking-bubble {
   display: inline-flex;
   align-items: center;
@@ -177,41 +151,60 @@
   border-radius: 50%;
   animation: blink 1.5s infinite;
 }
-.speaking-bubble .dot:nth-child(1) { animation-delay: 0s; }
 .speaking-bubble .dot:nth-child(2) { animation-delay: 0.2s; }
 .speaking-bubble .dot:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes blink {
-  0% { opacity: 0.2; }
+  0%, 100% { opacity: 0.2; }
   50% { opacity: 1; }
-  100% { opacity: 0.2; }
 }
 
-/* Responsive */
+/* 📱 Sleeker Mobile View */
 @media (max-width: 768px) {
+  .chatbot-container,
   .voice-chat-container {
-    right: 10px;
-    width: 95vw;
-    height: 90vh;
-    bottom: 60px;
+    width: 90vw;
+    max-width: 350px;
+    height: 60vh;
+    bottom: 70px;
+    right: 5vw;
+    border-radius: 14px;
   }
 
+  .chat,
+  .bot-message,
+  .user-message {
+    font-size: 0.85rem;
+    margin-bottom: 3px !important;
+    padding: 8px 12px;
+    max-width: 85%;
+  }
+
+  .chatbot-header,
   .voice-chat-header {
     font-size: 0.95rem;
+    padding: 8px 12px;
   }
 
-  .chat {
-    font-size: 0.9rem;
-    margin-bottom: 4px;
+  #user-input {
+    font-size: 14px;
+    padding: 10px 12px;
   }
 
-  .bot-avatar {
-    width: 22px;
-    height: 22px;
+  #send-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
   }
 
   .mic-button {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .bot-avatar,
+  .user-avatar {
+    width: 20px;
+    height: 20px;
   }
 }

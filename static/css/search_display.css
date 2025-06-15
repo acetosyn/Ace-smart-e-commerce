@@ -6,9 +6,25 @@
 #searchResults {
   padding: 30px 20px;
   background: transparent;
-  margin-top: 0;
 }
 
+/* === Header (e.g. “Showing results for...”) === */
+.search-results-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #04175d;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .search-results-title {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+}
+
+/* === Product Grid === */
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -22,10 +38,10 @@
   flex-direction: column;
   border-radius: 16px;
   border: 1px solid #eee;
-  max-width: 320px;
+  max-width: 300px;
   width: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   background: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
@@ -35,7 +51,7 @@
 
 .card img {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: cover;
   border-bottom: 1px solid #eee;
 }
@@ -49,11 +65,11 @@
 }
 
 .card-title {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
   color: #04175d;
-  margin-bottom: 12px;
-  min-height: 48px;
+  margin-bottom: 10px;
+  min-height: 40px;
 }
 
 .card-text {
@@ -138,17 +154,30 @@
 
 /* === Responsive Adjustments === */
 @media (max-width: 768px) {
-  .card         { max-width: 100%; }
-  .card-body    { padding: 14px; }
-  .card-title   { font-size: 15px; }
-  .card-text    { font-size: 13px; }
+  .row {
+    gap: 15px;
+  }
+
+  .card {
+    max-width: 90vw;
+  }
+
+  .card-body {
+    padding: 14px;
+  }
+
+  .card-title {
+    font-size: 15px;
+  }
+
+  .card-text {
+    font-size: 13px;
+  }
+
   .btn-primary,
-  .clear-btn    {
+  .clear-btn {
     font-size: 14px;
     padding: 7px 12px;
     width: 100%;
-  }
-  .row {
-    gap: 15px;
   }
 }

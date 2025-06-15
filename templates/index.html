@@ -1,236 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Font Awesome for search icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ACE - Smart E-Commerce System</title>
 
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ACE - Smart E-Commerce System</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <!-- External CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
-     <link rel="stylesheet" href="{{ url_for('static', filename='css/categories.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/promotion.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/search_display.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/voicechat.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/shopping.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/links.css') }}">
-   
+  <!-- Redesigned CSS -->
+     <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home2.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/voicebot.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/autocomplete.css') }}"> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/search_display.css') }}">
+
 </head>
 
 <body>
   <div class="page-wrapper">
-
 <!-- HEADER -->
 <header class="top_header">
-  <div class="header-top-content">
-    <div class="container flex justify-between items-center flex-wrap">
-      <div class="header-right">
+  <div class="container">
+
+    <div class="header-content">
+      <!-- Logo -->
+      <div class="logo">ACE</div>
+
+      <!-- Button Group (Nav + Info) -->
+      <div class="btn-group">
+        <a href="#">Home</a>
+        <a href="#" class="pro_version">Upgrade</a>
         <span><i class="fa fa-phone"></i> (+234) 123 456 7890</span>
         <span><i class="fa fa-envelope"></i> info@acemax.com</span>
-        <span><i class="fa fa-truck"></i> Free Shipping on All Orders Over ₦10,000</span>
         <span><i class="fa fa-map-marker"></i> Track Order</span>
         <a href="{{ url_for('logout') }}" class="logout-btn">
           <i class="fa fa-sign-out"></i> Logout
         </a>
-        <span class="profile-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="24" height="24" fill="white">
-            <path style="fill:#abd8c7" d="M45.991 30.74H17.903c-.774 0-1.397.623-1.397 1.393v14.528h30.883V32.133a1.395 1.395 0 0 0-1.398-1.393z"/>
-          </svg>
-        </span>
       </div>
     </div>
-  </div>
 
-  <nav class="main_nav">
-    <div class="container">
-      <div class="nav_links">
-        <ul>
-          <li><a href="#" class="home">Home</a></li>
-          <li><a href="#" class="pro_version">Upgrade</a></li>
-        </ul>
-      </div>
+    <!-- Promo Title + Typewriter -->
+    <div class="promo-text">
+      <h1 class="main-title">Find the Best Deals Across Multiple Stores</h1>
+      <p id="typewriter" class="typewriter-text"></p>
     </div>
-  </nav>
+
+  </div>
 </header>
 
-    <!-- 🧱 MAIN CONTENT WRAPPER -->
-    <main class="main-content">
-
-      <!-- Promotional Header -->
-      <section class="promo_header text-center p-2">
+      <!-- SEARCH SECTION -->
+      <section class="search_section">
         <div class="container">
-          <h1 class="text-lg text-lg-mobile text-light mb-1">Find the Best Deals Across Multiple Stores</h1>
-          <div class="typewriter-wrapper text-md text-sm-mobile">
-            <p id="typewriter" class="typewriter-text text-light"></p>
+          <div class="giant-search-wrapper">
+            <div class="search-group">
+              <select id="categorySelect" class="form-select" onchange="handleCategoryChange()">
+                <option value="ratings">⭐ Sites with Ratings</option>
+                <option value="non-ratings">🛍️ Other Sites</option>
+                <option value="specific-sites">🔍 Choose Specific Sites</option>
+              </select>
+
+              <input type="text" id="search-bar" class="form-control" placeholder="Search for products...">
+
+              <button class="search-btn" onclick="performSearch()">
+                <i class="fa fa-search"></i> Search
+              </button>
+            </div>
+
+            <div id="suggestions" class="autocomplete-box"></div>
+
+            <select id="specificSitesDropdown" class="form-select hidden">
+              <option value="">-- Select a site --</option>
+              <option value="amazon">Amazon</option>
+              <option value="jumia">Jumia</option>
+              <option value="konga">Konga</option>
+              <option value="jiji">Jiji</option>
+              <option value="kara">Kara</option>
+              <option value="slot">Slot</option>
+              <option value="ajebomarket">Ajebomarket</option>
+              <option value="topsuccess">Topsuccess</option>
+            </select>
           </div>
         </div>
+        <div id="searchResults" class="hidden mt-4"></div>
       </section>
 
-      <!-- Sidebar -->
-      <aside class="sidebar p-2 text-light">
-        <h2 class="text-lg mb-2">Categories</h2>
-        <button class="sidebar-toggle">⟨</button>
-        <ul class="menu">
-          <li class="category">Appliances</li>
-          <li class="category">Phones & Tablets</li>
-          <li class="category">Health & Beauty
-            <ul class="sub-menu">
-              <li>Make Up</li>
-              <li>Concealers & Color Correctors</li>
-              <li>Foundation</li>
-              <li>Powder</li>
-              <li>Lipstick</li>
-              <li>Eyeliner & Kajal</li>
-              <li>Mascara</li>
-            </ul>
-          </li>
-          <li class="category">Home & Office</li>
-          <li class="category">Electronics</li>
-          <li class="category">Fashion</li>
-          <li class="category">Supermarket</li>
-          <li class="category">Computing</li>
-          <li class="category">Baby Products</li>
-          <li class="category">Gaming</li>
-          <li class="category">Musical Instruments</li>
-        </ul>
-      </aside>
-
-<!-- Search Section -->
-<!-- Search Section -->
-<section class="search_section">
-  <div class="container">
-    <div class="search_area">
-      <div class="giant-search-wrapper">
-        <div class="input-group search-group">
-          <select id="categorySelect" class="form-select" onchange="handleCategoryChange()">
-            <option value="ratings">⭐ Sites with Ratings</option>
-            <option value="non-ratings">🛍️ Other Sites</option>
-            <option value="specific-sites">🔍 Choose Specific Sites</option>
-          </select>
-
-          <!-- Just the input -->
-          <input type="text" id="search-bar" class="form-control" placeholder="Search for products...">
-
-          <button class="btn btn-secondary search-btn" type="button" onclick="performSearch()">
-            <i class="fa fa-search"></i> Search
-          </button>
-        </div>
-
-        <!-- NOW: Suggestions outside the input-group -->
-        <div id="suggestions" class="autocomplete-box"></div>
-
-        <select id="specificSitesDropdown" class="form-select hidden">
-          <option value="">-- Select a site --</option>
-          <option value="amazon">Amazon</option>
-          <option value="jumia">Jumia</option>
-          <option value="konga">Konga</option>
-          <option value="jiji">Jiji</option>
-          <option value="kara">Kara</option>
-          <option value="slot">Slot</option>
-          <option value="ajebomarket">Ajebomarket</option>
-          <option value="topsuccess">Topsuccess</option>
-        </select>
+      <!-- Chat & Voice Icons -->
+      <div class="chat-voice-container">
+        <div id="voice-chat-icon" class="voice-chat-icon"></div>
+        <div id="chat-icon" class="chat-icon"><i class="fas fa-comment"></i></div>
       </div>
-    </div>
-    <div id="searchResults" class="hidden mt-4"></div>
-  </div>
-</section>
 
-<!-- Chat & Voice Icons -->
-<div class="chat-voice-container">
-  <div id="voice-chat-icon" class="voice-chat-icon"></div>
-  <div id="chat-icon" class="chat-icon"><i class="fas fa-comment"></i></div>
-</div>
-
-<!-- Voice Chat -->
-<div id="voice-chat-container" class="voice-chat-container">
-  <div class="voice-chat-card">
-    <div class="voice-chat-header">
-      <span class="text-md">ACEBOT: talk to me</span>
-      <select id="language-select" class="language-select">
-        <option value="en">🇬🇧 English</option>
-        <option value="es">🇪🇸 Spanish</option>
-        <option value="fr">🇫🇷 French</option>
-        <option value="it">🇮🇹 Italian</option>
-      </select>
-      <button id="clear-voice-chat" class="clear-chat-btn" title="Clear Voice Chat">🗑</button>
-      <button id="close-voice-chat" class="close-voice-chat" title="Close Voice Chat">&times;</button>
-    </div>
-    <div id="voice-chat-display" class="voice-chat-display">
-      <div class="d-flex flex-row p-2">
-        <img src="{{ url_for('static', filename='images/bot.jpg') }}" width="24" height="24" alt="Bot Avatar" class="bot-avatar" />
-        <div class="chat bot-message ml-2 p-2 rounded-lg">
-          Hi! I'm Ace, your e-commerce voice assistant. Kindly click the mic button to speak to me.
+      <!-- VOICE CHAT -->
+      <div id="voice-chat-container" class="voice-chat-container">
+        <div class="voice-chat-card">
+          <div class="voice-chat-header">
+            <span class="text-md">ACEBOT: talk to me</span>
+            <select id="language-select" class="language-select">
+              <option value="en">🇬🇧 English</option>
+              <option value="es">🇪🇸 Spanish</option>
+              <option value="fr">🇫🇷 French</option>
+              <option value="it">🇮🇹 Italian</option>
+            </select>
+            <button id="clear-voice-chat" class="clear-chat-btn" title="Clear Voice Chat">🗑</button>
+            <button id="close-voice-chat" class="close-voice-chat" title="Close Voice Chat">&times;</button>
+          </div>
+          <div id="voice-chat-display" class="voice-chat-display">
+            <div class="d-flex flex-row p-2">
+              <img src="{{ url_for('static', filename='images/bot.jpg') }}" width="24" height="24" alt="Bot Avatar" class="bot-avatar" />
+              <div class="chat bot-message ml-2 p-2 rounded-lg">
+                Hi! I'm Ace, your e-commerce voice assistant. Kindly click the mic button to speak to me.
+              </div>
+            </div>
+          </div>
+          <div class="voice-input-area p-2 bg-white flex items-center justify-center">
+            <div id="mic-button" class="mic-button rounded-full shadow-md"></div>
+            <input type="text" id="voice-input" style="display: none;" />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="voice-input-area p-2 bg-white flex items-center justify-center">
-      <div id="mic-button" class="mic-button rounded-full shadow-md"></div>
-      <input type="text" id="voice-input" style="display: none;" />
-    </div>
-  </div>
-</div>
 
-<!-- Chatbot -->
-<div id="chatbot-container" class="chatbot-container">
-  <div class="chatbot-card">
-    <div class="chatbot-header">
-      <span class="text-md">ACEBOT - Chat with me</span>
-      <button id="clear-chat" class="clear-chat-btn" title="Clear Chat">🗑</button>
-      <button id="close-chat" class="close-chat" title="Close Chat">&times;</button>
-    </div>
-    <div id="chat-display" class="chat-display">
-      <div class="d-flex flex-row p-2">
-        <img src="{{ url_for('static', filename='images/chatbot-avatar.jpg') }}" width="24" height="24" alt="Bot Avatar" class="bot-avatar" />
-        <div class="chat bot-message ml-2 p-2 rounded-lg">
-          Hi! I'm AceBot, your e-commerce voice assistant. How can I help you find the best deals today?
+      <!-- CHATBOT -->
+      <div id="chatbot-container" class="chatbot-container">
+        <div class="chatbot-card">
+          <div class="chatbot-header">
+            <span class="text-md">ACEBOT - Chat with me</span>
+            <button id="clear-chat" class="clear-chat-btn" title="Clear Chat">🗑</button>
+            <button id="close-chat" class="close-chat" title="Close Chat">&times;</button>
+          </div>
+          <div id="chat-display" class="chat-display">
+            <div class="d-flex flex-row p-2">
+              <img src="{{ url_for('static', filename='images/chatbot-avatar.jpg') }}" width="24" height="24" alt="Bot Avatar" class="bot-avatar" />
+              <div class="chat bot-message ml-2 p-2 rounded-lg">
+                Hi! I'm AceBot, your e-commerce voice assistant. How can I help you find the best deals today?
+              </div>
+            </div>
+          </div>
+          <div class="text-input-area flex items-center p-2 bg-white border-t">
+            <input type="text" id="user-input" class="form-control input-lg rounded-md flex-grow mr-2" placeholder="Ask me anything about shopping...">
+            <button id="send-btn" title="Send" class="btn btn-primary rounded-full p-1"><i class="fas fa-paper-plane"></i></button>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="text-input-area flex items-center p-2 bg-white border-t">
-      <input type="text" id="user-input" class="form-control input-lg rounded-md flex-grow mr-2" placeholder="Ask me anything about shopping...">
-      <button id="send-btn" title="Send" class="btn btn-primary rounded-full p-1"><i class="fas fa-paper-plane"></i></button>
-    </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 ACE - Smart E-Commerce System. All Rights Reserved.</p>
+      </div>
+    </footer>
+
   </div>
-</div>
 
-    </main> <!-- ✅ END MAIN -->
+  <!-- JS Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-  </div> <!-- End .page-wrapper -->
-
-  <!-- FOOTER OUTSIDE WRAPPER -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 ACE - Smart E-Commerce System. All Rights Reserved.</p>
-    </div>
-  </footer>
-
-<!-- JS Scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<!-- Core Logic -->
-<script src="{{ url_for('static', filename='js/search_fetch.js') }}"></script>
-<script src="{{ url_for('static', filename='js/search_display.js') }}"></script>
-<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
-<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
-
-<!-- Voice Features -->
-<script src="{{ url_for('static', filename='js/voicebot.js') }}"></script>
-<script src="{{ url_for('static', filename='js/voicebot2.js') }}"></script>
-<script src="{{ url_for('static', filename='js/voicebot3.js') }}"></script>
-
-<!-- UI & Misc -->
-<script src="{{ url_for('static', filename='js/categories.js') }}"></script>
-<script src="{{ url_for('static', filename='js/typewriter.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search_fetch.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/search_display.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/voicebot.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/voicebot2.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/voicebot3.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/typewriter.js') }}"></script>
 </body>
 </html>
