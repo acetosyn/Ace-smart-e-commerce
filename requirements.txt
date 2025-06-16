@@ -15,3 +15,4 @@ zenrows==1.4.0
 gunicorn
 lxml
 setuptools
+mysql-connector-python
