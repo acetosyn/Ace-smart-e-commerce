@@ -23,24 +23,23 @@ from scrap_global import try_single_site_scrape
 from product_extraction import extract_and_store_products
 from llm_engine import summarize_products
 
-
-
-mysql_password = os.getenv("MYSQL_PASSWORD")
-app = Flask(__name__)
 load_dotenv()
-app.secret_key = os.getenv("SECRET_KEY")  
-# database URI configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://ace:{mysql_password}@localhost/jannah'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = secrets.token_hex(16)
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
-init_cache(app)  # ✅ Now cache is properly initialized
-#database initialization and login manager
-init_app(app)
 
-#table creation
+app = Flask(__name__)
+# 🔐 Secret Key for sessions
+app.secret_key = os.getenv("SECRET_KEY") or secrets.token_hex(16)
+# ✅ PostgreSQL (Neon) database config
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+# ✅ Init cache and database
+init_cache(app)
+init_app(app)
+# ✅ Create tables if not exist
 with app.app_context():
+    from engine import db
     db.create_all()
+
 
 @app.route('/')
 @login_required
