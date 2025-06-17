@@ -5,7 +5,7 @@
 [![ACE Demo Screenshot](static/images/Ace.JPG)](static/images/Ace.JPG)
 
 
-# 🛍️ ACE - AI Commerce Engine
+# 🛍️ ACE - Smart eCommerce Engine
 
 **ACE (AI Commerce Engine)** is a smart, voice- and chat-enabled e-commerce assistant that helps users effortlessly find top-rated products across major platforms like **Jumia**, **Amazon**, and more.
 
