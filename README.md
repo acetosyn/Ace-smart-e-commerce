@@ -40,7 +40,23 @@ Just speak or type what you’re looking for — ACE searches, scrapes, and retu
 
 ---
 
-## 📁 Project Structure
+---
+## 🚀 Future Improvements
 
+- ✅ Integrate real-time Text-to-Speech (TTS)
+- ✅ Add more platforms (Konga, Kara, etc.)
+- ✅ Product comparison and price history
+- ✅ User account system & wishlists
+- ✅ HTTPS deployment on Vercel / Render
+
+---
+
+## 👤 Author
+
+**Developer:** [Aliyu Hakeem Tosin]  
+📧 Email: acetosyn@gmail.com  
+💻 GitHub: [acetosyn](https://github.com/acetosyn)
+
+---
 
                             ]
